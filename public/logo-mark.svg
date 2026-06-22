@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="TwoTales mark">
+  
+  <g fill="none" stroke="#1c1612" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter">
+    
+    <path d="M9 15 L9 11 L55 11 L55 15"></path>
+    <line x1="32" y1="11" x2="32" y2="31"></line>
+    
+    <path d="M9 49 L9 53 L55 53 L55 49"></path>
+    <line x1="32" y1="33" x2="32" y2="53"></line>
+  </g>
+  
+  <circle cx="32" cy="32" r="3" fill="#fbf6ee" stroke="#1c1612" stroke-width="1.2"></circle>
+  
+  <g fill="none" stroke="#b8472d" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13.5 18 q2.4 -1.8 4.8 0 t4.8 0"></path>
+    <path d="M13.5 27 q2.4 -1.8 4.8 0 t4.8 0"></path>
+    <path d="M13.5 36 q2.4 -1.8 4.8 0 t4.8 0"></path>
+    <path d="M13.5 45 q2.4 -1.8 4.8 0 t4.8 0"></path>
+    <path d="M36.9 18 q2.4 -1.8 4.8 0 t4.8 0"></path>
+    <path d="M36.9 27 q2.4 -1.8 4.8 0 t4.8 0"></path>
+    <path d="M36.9 36 q2.4 -1.8 4.8 0 t4.8 0"></path>
+    <path d="M36.9 45 q2.4 -1.8 4.8 0 t4.8 0"></path>
+  </g>
+</svg>

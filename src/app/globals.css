@@ -1,0 +1,552 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─────────────────────────────────────────────────────────────
+ * TwoTales Design System — Vellum
+ * Warm paper-forward palette + Source Serif 4 / Inter / JetBrains Mono.
+ * Components consume semantic tokens (vellum/ink/brick/forest/marigold)
+ * and shadcn tokens are re-mapped onto the same palette for inheritance.
+ * ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Core palette ─────────────────────────────────────── */
+  --vellum-50: #fbf6ee;
+  --vellum-100: #f5ecdd;
+  --vellum-200: #ebdfc8;
+  --vellum-300: #d9c8a8;
+  --vellum-400: #b8a887;
+
+  --ink-900: #1c1612;
+  --ink-800: #2d2418;
+  --ink-700: #4a3d2c;
+  --ink-600: #6b5a45;
+  --ink-500: #8a7860;
+  --ink-400: #a89a82;
+
+  --brick-700: #8a3420;
+  --brick-600: #b8472d;
+  --brick-500: #d05a3e;
+  --brick-100: #f4dccf;
+
+  --forest-700: #1f3a30;
+  --forest-600: #2d5040;
+  --forest-500: #3f6a55;
+  --forest-100: #d8e3dc;
+
+  --marigold-700: #b8862a;
+  --marigold-600: #e8b94a;
+  --marigold-500: #f1cc6e;
+  --marigold-100: #faecc8;
+
+  /* Semantic surfaces */
+  --bg-page: var(--vellum-50);
+  --bg-card: #fefaf2;
+  --bg-sunken: var(--vellum-100);
+  --bg-overlay: rgba(28, 22, 18, 0.55);
+
+  --fg-1: var(--ink-900);
+  --fg-2: var(--ink-800);
+  --fg-3: var(--ink-700);
+  --fg-4: var(--ink-600);
+  --fg-5: var(--ink-500);
+
+  --border-soft: rgba(74, 61, 44, 0.1);
+  --border-medium: rgba(74, 61, 44, 0.18);
+  --border-strong: rgba(74, 61, 44, 0.32);
+
+  --action-primary: var(--ink-900);
+  --action-primary-hover: var(--ink-800);
+  --action-accent: var(--brick-600);
+  --action-accent-hover: var(--brick-700);
+
+  --status-success: var(--forest-600);
+  --status-warning: var(--marigold-700);
+  --status-error: var(--brick-700);
+
+  --lang-primary-tint: rgba(184, 71, 45, 0.07);
+  --lang-secondary-tint: rgba(45, 80, 64, 0.07);
+
+  /* ── Type scale ───────────────────────────────────────── */
+  --fs-display-xl: 64px;
+  --lh-display-xl: 1.05;
+  --fs-display-l: 48px;
+  --lh-display-l: 1.1;
+  --fs-display-m: 36px;
+  --lh-display-m: 1.15;
+  --fs-h1: 32px;
+  --lh-h1: 1.2;
+  --fs-h2: 24px;
+  --lh-h2: 1.25;
+  --fs-h3: 20px;
+  --lh-h3: 1.3;
+  --fs-reading: 19px;
+  --lh-reading: 1.6;
+  --fs-body: 16px;
+  --lh-body: 1.55;
+  --fs-meta: 14px;
+  --lh-meta: 1.45;
+  --fs-caption: 13px;
+  --lh-caption: 1.4;
+  --fs-micro: 11px;
+  --lh-micro: 1.3;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-caps: 0.14em;
+
+  /* ── Spacing & layout ─────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --reading-width: 36rem;
+  --container: 72rem;
+  --container-wide: 84rem;
+
+  /* ── Radii ────────────────────────────────────────────── */
+  --radius: 10px;
+  --radius-xs: 3px;
+  --radius-pill: 999px;
+
+  /* ── Shadows ──────────────────────────────────────────── */
+  --shadow-sm:
+    0 1px 2px rgba(45, 36, 24, 0.06), 0 1px 1px rgba(45, 36, 24, 0.04);
+  --shadow-md:
+    0 2px 4px rgba(45, 36, 24, 0.06), 0 4px 12px rgba(45, 36, 24, 0.07);
+  --shadow-lg:
+    0 4px 8px rgba(45, 36, 24, 0.07), 0 12px 28px rgba(45, 36, 24, 0.1);
+  --shadow-xl:
+    0 8px 16px rgba(45, 36, 24, 0.08), 0 24px 56px rgba(45, 36, 24, 0.14);
+  --shadow-page:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 0 0 1px rgba(74, 61, 44, 0.06),
+    0 12px 32px rgba(45, 36, 24, 0.08);
+  --shadow-inset: inset 0 1px 2px rgba(45, 36, 24, 0.08);
+
+  /* ── Motion ───────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-page: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+  --dur-page: 680ms;
+
+  /* ── Texture ──────────────────────────────────────────── */
+  --texture-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.14  0 0 0 0 0.07  0 0 0 0.10 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+
+  /* ── Shadcn token bridge ──────────────────────────────── */
+  /* Existing components using bg-card, text-foreground, border-border,
+     text-muted-foreground, etc. inherit the vellum palette via these. */
+  --background: var(--bg-page);
+  --foreground: var(--ink-900);
+  --card: var(--bg-card);
+  --card-foreground: var(--ink-900);
+  --popover: var(--bg-card);
+  --popover-foreground: var(--ink-900);
+  --primary: var(--ink-900);
+  --primary-foreground: var(--vellum-50);
+  --secondary: var(--bg-sunken);
+  --secondary-foreground: var(--ink-800);
+  --muted: var(--bg-sunken);
+  --muted-foreground: var(--ink-600);
+  --accent: var(--brick-600);
+  --accent-foreground: var(--vellum-50);
+  --destructive: var(--brick-700);
+  --destructive-foreground: var(--vellum-50);
+  --border: var(--border-medium);
+  --input: var(--border-medium);
+  --ring: var(--brick-600);
+  --chart-1: var(--brick-600);
+  --chart-2: var(--forest-600);
+  --chart-3: var(--marigold-600);
+  --chart-4: var(--ink-700);
+  --chart-5: var(--vellum-400);
+  --sidebar: var(--bg-card);
+  --sidebar-foreground: var(--ink-900);
+  --sidebar-primary: var(--ink-900);
+  --sidebar-primary-foreground: var(--vellum-50);
+  --sidebar-accent: var(--bg-sunken);
+  --sidebar-accent-foreground: var(--ink-800);
+  --sidebar-border: var(--border-medium);
+  --sidebar-ring: var(--brick-600);
+}
+
+.dark {
+  /* Warm dark variant — deep ink page, vellum text. */
+  --bg-page: #14100c;
+  --bg-card: var(--ink-800);
+  --bg-sunken: #0f0c08;
+
+  --fg-1: var(--vellum-50);
+  --fg-2: var(--vellum-100);
+  --fg-3: var(--vellum-200);
+  --fg-4: var(--vellum-300);
+  --fg-5: var(--vellum-400);
+
+  --border-soft: rgba(245, 236, 221, 0.08);
+  --border-medium: rgba(245, 236, 221, 0.15);
+  --border-strong: rgba(245, 236, 221, 0.28);
+
+  --background: var(--bg-page);
+  --foreground: var(--vellum-50);
+  --card: var(--ink-800);
+  --card-foreground: var(--vellum-50);
+  --popover: var(--ink-800);
+  --popover-foreground: var(--vellum-50);
+  --primary: var(--vellum-50);
+  --primary-foreground: var(--ink-900);
+  --secondary: var(--ink-800);
+  --secondary-foreground: var(--vellum-100);
+  --muted: var(--ink-800);
+  --muted-foreground: var(--vellum-400);
+  --accent: var(--brick-500);
+  --accent-foreground: var(--ink-900);
+  --destructive: var(--brick-500);
+  --destructive-foreground: var(--ink-900);
+  --border: var(--border-medium);
+  --input: var(--border-medium);
+  --ring: var(--brick-500);
+  --sidebar: var(--ink-800);
+  --sidebar-foreground: var(--vellum-50);
+  --sidebar-primary: var(--vellum-50);
+  --sidebar-primary-foreground: var(--ink-900);
+  --sidebar-accent: var(--ink-700);
+  --sidebar-accent-foreground: var(--vellum-100);
+  --sidebar-border: var(--border-medium);
+  --sidebar-ring: var(--brick-500);
+}
+
+@theme inline {
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+  --font-serif:
+    var(--font-source-serif), 'Iowan Old Style', 'Hoefler Text', Garamond,
+    Georgia, serif;
+  --font-mono:
+    var(--font-jetbrains-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Shadcn-mapped tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Vellum palette as Tailwind colors — bg-vellum-50, text-ink-700, border-brick-600, etc. */
+  --color-vellum-50: var(--vellum-50);
+  --color-vellum-100: var(--vellum-100);
+  --color-vellum-200: var(--vellum-200);
+  --color-vellum-300: var(--vellum-300);
+  --color-vellum-400: var(--vellum-400);
+
+  --color-ink-900: var(--ink-900);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-ink-600: var(--ink-600);
+  --color-ink-500: var(--ink-500);
+  --color-ink-400: var(--ink-400);
+
+  --color-brick-700: var(--brick-700);
+  --color-brick-600: var(--brick-600);
+  --color-brick-500: var(--brick-500);
+  --color-brick-100: var(--brick-100);
+
+  --color-forest-700: var(--forest-700);
+  --color-forest-600: var(--forest-600);
+  --color-forest-500: var(--forest-500);
+  --color-forest-100: var(--forest-100);
+
+  --color-marigold-700: var(--marigold-700);
+  --color-marigold-600: var(--marigold-600);
+  --color-marigold-500: var(--marigold-500);
+  --color-marigold-100: var(--marigold-100);
+
+  /* Legacy aliases — keep existing references rendering until pages are migrated */
+  --color-accent-gold: var(--marigold-600);
+  --color-accent-gold-light: var(--marigold-500);
+  --color-text-muted: var(--ink-600);
+  --color-text-light: var(--ink-500);
+}
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    background: var(--bg-page);
+    color: var(--fg-2);
+    font-family: var(--font-serif);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'calt', 'onum';
+  }
+
+  body.tt-paper::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--texture-grain);
+    background-size: 220px 220px;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    color: var(--fg-1);
+    font-weight: 500;
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1 {
+    font-size: var(--fs-h1);
+    line-height: var(--lh-h1);
+  }
+  h2 {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+  }
+  h3 {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--ink-900);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border-strong);
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      text-decoration-color var(--dur-fast) var(--ease-out);
+  }
+  a:hover {
+    color: var(--brick-600);
+    text-decoration-color: var(--brick-600);
+  }
+
+  ::selection {
+    background: var(--marigold-100);
+    color: var(--ink-900);
+  }
+}
+
+/* ── Typography utilities ────────────────────────────────── */
+@layer utilities {
+  .tt-display-xl {
+    font-family: var(--font-serif);
+    font-size: var(--fs-display-xl);
+    line-height: var(--lh-display-xl);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 400;
+  }
+  .tt-display-l {
+    font-family: var(--font-serif);
+    font-size: var(--fs-display-l);
+    line-height: var(--lh-display-l);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 400;
+  }
+  .tt-display-m {
+    font-family: var(--font-serif);
+    font-size: var(--fs-display-m);
+    line-height: var(--lh-display-m);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 400;
+  }
+  .tt-display-italic {
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .tt-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-caps);
+    color: var(--fg-4);
+    font-weight: 500;
+  }
+
+  .tt-reading {
+    font-size: var(--fs-reading);
+    line-height: var(--lh-reading);
+    color: var(--fg-2);
+    text-wrap: pretty;
+    hyphens: auto;
+  }
+  .tt-reading p + p {
+    margin-top: 1em;
+    text-indent: 1.4em;
+  }
+  .tt-reading p:first-child {
+    text-indent: 0;
+  }
+
+  .tt-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-meta);
+    line-height: var(--lh-meta);
+    color: var(--fg-4);
+  }
+  .tt-caption {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
+    color: var(--fg-4);
+  }
+  .tt-mono {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+  }
+
+  .tt-dropcap::first-letter {
+    font-family: var(--font-serif);
+    font-size: 3.4em;
+    line-height: 0.9;
+    float: left;
+    margin: 0.08em 0.08em 0 -0.04em;
+    font-weight: 400;
+    color: var(--brick-600);
+  }
+
+  /* Legacy typography utilities — re-pointed at the new scale */
+  .text-hero {
+    font-family: var(--font-serif);
+    font-size: clamp(2.25rem, 5.5vw, var(--fs-display-xl));
+    line-height: var(--lh-display-xl);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 400;
+  }
+  .text-hero-sm {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, var(--fs-display-l));
+    line-height: var(--lh-display-l);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 400;
+  }
+  .text-display {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, var(--fs-display-l));
+    line-height: var(--lh-display-l);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 400;
+  }
+  .text-subtitle {
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.6;
+    font-weight: 400;
+    color: var(--fg-4);
+  }
+}
+
+/* ── Animations preserved from previous system ───────────── */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(3deg);
+  }
+}
+.animate-blob {
+  animation: blob 7s infinite;
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}

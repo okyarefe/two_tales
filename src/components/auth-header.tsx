@@ -1,0 +1,137 @@
+'use client';
+
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+import { Button } from './ui/button';
+import { ClipLoader } from 'react-spinners';
+
+import { useUser } from '@/contexts/user-context';
+import { useState, useEffect } from 'react';
+import type { CSSProperties } from 'react';
+
+function useMobileLandscape() {
+  const [isML, setIsML] = useState(false);
+  useEffect(() => {
+    const check = () =>
+      setIsML(
+        window.innerWidth <= 920 && window.innerHeight < window.innerWidth,
+      );
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isML;
+}
+import GoogleSignInButton from './google-signin-button';
+
+export default function HeaderAuth({
+  orientation = 'horizontal',
+}: {
+  orientation?: 'horizontal' | 'vertical';
+}) {
+  const { user, userData, isLoading, signOut } = useUser();
+  const [isSigningOut] = useState(false);
+  const mobileLandscape = useMobileLandscape();
+
+  const getInitial = (email?: string) => email?.charAt(0).toUpperCase() || '?';
+
+  const override: CSSProperties = {
+    display: 'block',
+    margin: '0 auto',
+    borderColor: 'var(--brick-600)',
+  };
+
+  // Show loading spinner while checking session or during sign out
+  if (user && (isLoading || isSigningOut)) {
+    return (
+      <ClipLoader
+        color="#b8472d"
+        loading={true}
+        cssOverride={override}
+        size={40}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
+  }
+
+  // User is logged in - show avatar with dropdown
+  if (user?.email) {
+    return (
+      <Popover>
+        <PopoverTrigger asChild>
+          <Avatar className="border-2 border-accent/40 h-10 w-10 cursor-pointer">
+            <AvatarImage
+              src={
+                typeof user.user_metadata.avatar_url === 'string'
+                  ? user.user_metadata.avatar_url
+                  : undefined
+              }
+            />
+            <AvatarFallback>{getInitial(user?.email ?? '')}</AvatarFallback>
+          </Avatar>
+        </PopoverTrigger>
+        <PopoverContent>
+          <div className="p-4 space-y-3">
+            <div className="text-sm text-gray-600">
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+              {userData && (
+                <>
+                  <p>
+                    <strong>Role:</strong>{' '}
+                    <span className="capitalize">{userData.role}</span>
+                  </p>
+                  <p>
+                    <strong>Membership:</strong>{' '}
+                    <span className="capitalize">
+                      {userData.membershipType}
+                    </span>
+                  </p>
+                  {/* <p>
+                    <strong>Story Credits:</strong> {userData.storyCredit}
+                  </p>
+                  <p>
+                    <strong>TTS Credits:</strong> {userData.ttsCredit}
+                  </p> */}
+                </>
+              )}
+            </div>
+            <Button
+              type="button"
+              variant="accentSoft"
+              className="w-full"
+              onClick={signOut}
+            >
+              Sign Out
+            </Button>
+          </div>
+        </PopoverContent>
+      </Popover>
+    );
+  }
+
+  // User is not logged in - show sign in/up buttons
+  return (
+    <div
+      className={
+        orientation === 'vertical'
+          ? 'flex flex-col gap-1 items-center'
+          : 'flex flex-row gap-2'
+      }
+    >
+      {orientation !== 'vertical' && (
+        <div className="hidden sm:block">
+          <GoogleSignInButton variant="signin">
+            {mobileLandscape ? '' : 'Sign In'}
+          </GoogleSignInButton>
+        </div>
+      )}
+
+      <GoogleSignInButton variant="signup">
+        {mobileLandscape ? '' : orientation === 'vertical' ? 'Up' : 'Sign Up'}
+      </GoogleSignInButton>
+    </div>
+  );
+}
