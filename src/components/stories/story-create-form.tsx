@@ -23,15 +23,18 @@ import { languages, languageLevels, grammarTopics } from '@/constants';
 import { language } from '@/types';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
+import StoryGenerationOverlay, {
+  GenerationStatus,
+} from './story-generation-overlay';
 
 export default function TopicCreateForm() {
-  const [isPending, setIsPending] = useState(false);
+  const [status, setStatus] = useState<GenerationStatus>('idle');
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<language>();
   const [selectedLanguageLevel, setSelectedLanguageLevel] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('');
   const [title, setTitle] = useState('');
   const [prompt, setPrompt] = useState('');
-  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const [formState, setFormState] = useState<{
     errors: Record<string, string[]>;
@@ -40,12 +43,12 @@ export default function TopicCreateForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitting(true);
+    if (status !== 'idle') return;
 
     const formData = new FormData(event.currentTarget);
 
     try {
-      setIsPending(true);
+      setStatus('generating');
       const res = await fetch('/api/stories', {
         method: 'POST',
         body: formData,
@@ -54,32 +57,34 @@ export default function TopicCreateForm() {
       setFormState(data);
 
       if (data.success === true) {
-        toast.success('Story created successfully!', {
-          position: 'top-center',
-          style: {
-            backgroundColor: 'white',
-            color: 'var(--brick-600)',
-            borderColor: 'var(--brick-600)',
-          },
-        });
+        setStatus('success');
+        // Let the success state of the overlay play before navigating
+        await new Promise((resolve) => setTimeout(resolve, 1200));
         resetFormInputs();
+        setPopoverOpen(false);
+        setStatus('idle');
         router.push('/stories');
-      } else if (data.errors && data.errors._form) {
-        toast.error(data.errors._form.join(', '), {
-          position: 'top-center',
-          style: { backgroundColor: 'white', color: 'red', borderColor: 'red' },
-        });
+      } else {
+        setStatus('idle');
+        if (data.errors && data.errors._form) {
+          toast.error(data.errors._form.join(', '), {
+            position: 'top-center',
+            style: {
+              backgroundColor: 'white',
+              color: 'red',
+              borderColor: 'red',
+            },
+          });
+        }
       }
     } catch (err) {
+      setStatus('idle');
       const message =
         err instanceof Error ? err.message : 'Something went wrong';
       toast.error(message, {
         position: 'top-center',
         style: { backgroundColor: 'white', color: 'red', borderColor: 'red' },
       });
-    } finally {
-      setSubmitting(false);
-      setIsPending(false);
     }
   }
 
@@ -91,8 +96,19 @@ export default function TopicCreateForm() {
     setSelectedTopic('');
   }
 
+  const isGenerating = status !== 'idle';
+
   return (
-    <Popover>
+    <>
+      <StoryGenerationOverlay status={status} />
+      <Popover
+      open={popoverOpen}
+      onOpenChange={(open) => {
+        // Keep the popover open while a story is being generated
+        if (!open && isGenerating) return;
+        setPopoverOpen(open);
+      }}
+    >
       <PopoverTrigger asChild>
         <Button variant="accent">
           {' '}
@@ -132,7 +148,7 @@ export default function TopicCreateForm() {
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
-                {!submitting && formState.errors.language && (
+                {!isGenerating && formState.errors.language && (
                   <p className="mt-1 text-sm text-red-600">
                     {formState.errors.language.join(', ')}
                   </p>
@@ -179,7 +195,7 @@ export default function TopicCreateForm() {
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
-                {!submitting && formState.errors.languageLevel && (
+                {!isGenerating && formState.errors.languageLevel && (
                   <p className="mt-1 text-sm text-red-600">
                     {formState.errors.languageLevel.join(', ')}
                   </p>
@@ -217,7 +233,7 @@ export default function TopicCreateForm() {
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
-                {!submitting && formState.errors.topic && (
+                {!isGenerating && formState.errors.topic && (
                   <p className="mt-1 text-sm text-red-600">
                     {formState.errors.topic.join(', ')}
                   </p>
@@ -232,7 +248,7 @@ export default function TopicCreateForm() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             ></Input>
-            {!submitting && formState.errors.title && (
+            {!isGenerating && formState.errors.title && (
               <p id="title-error" className="mt-1 text-sm text-red-600">
                 {formState.errors.title.join(', ')}
               </p>
@@ -243,20 +259,21 @@ export default function TopicCreateForm() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
             ></Textarea>
-            {!submitting && formState.errors.prompt && (
+            {!isGenerating && formState.errors.prompt && (
               <p id="description-error" className="mt-1 text-sm text-red-600">
                 {formState.errors.prompt.join(', ')}
               </p>
             )}
-            {!submitting && formState.errors._form ? (
+            {!isGenerating && formState.errors._form ? (
               <div className="p-2 bg-red-200 border border-red-400 rounded text-center">
                 {formState.errors._form.join(', ')}
               </div>
             ) : null}
-            <FormButton isLoading={isPending}>Submit</FormButton>
+            <FormButton isLoading={isGenerating}>Submit</FormButton>
           </div>
         </form>
       </PopoverContent>
-    </Popover>
+      </Popover>
+    </>
   );
 }
