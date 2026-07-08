@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/utils/utils';
 import { useUser } from '@/contexts/user-context';
 import { publicLinks, privateLinks } from '@/config/nav-links';
@@ -9,6 +10,7 @@ export default function HeaderNav() {
   // Helper to normalize paths (remove trailing slashes)
   const normalize = (path: string) => path.replace(/\/+$/, '');
   const pathname = usePathname();
+  const t = useTranslations('Nav');
 
   const { user } = useUser();
 
@@ -34,7 +36,7 @@ export default function HeaderNav() {
             aria-current={isActive ? 'page' : undefined}
           >
             {link.icon && link.icon}
-            <span className="hidden md:inline">{link.label}</span>
+            <span className="hidden md:inline">{t(link.labelKey)}</span>
           </Link>
         );
       })}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import { Card } from '@/components/ui/card';
 import { CreditsButton } from '@/components/common/credits-button';
 
@@ -20,11 +21,12 @@ interface PricingCardsProps {
 
 export async function PricingCards({ plansPromise }: PricingCardsProps) {
   const allPlans = await plansPromise;
+  const t = await getTranslations('Credits');
 
   if (allPlans.length === 0) {
     return (
       <div className="col-span-full text-center text-slate-500">
-        No plans available yet
+        {t('noPlans')}
       </div>
     );
   }
@@ -61,12 +63,12 @@ export async function PricingCards({ plansPromise }: PricingCardsProps) {
         const isPopular = sortedPlans.length === 3 && idx === 1;
 
         // Choose image from /public by plan name (fallback to basic)
-        const t = title.toLowerCase();
-        const planImage = t.includes('explorer')
+        const titleLower = title.toLowerCase();
+        const planImage = titleLower.includes('explorer')
           ? '/explorer.png'
-          : t.includes('wanderer')
+          : titleLower.includes('wanderer')
             ? '/wanderer.png'
-            : t.includes('basic') || t.includes('starter')
+            : titleLower.includes('basic') || titleLower.includes('starter')
               ? '/basicplan.png'
               : idx === 1
                 ? '/wanderer.png'
@@ -99,7 +101,7 @@ export async function PricingCards({ plansPromise }: PricingCardsProps) {
                 {/* Credits Badge */}
                 <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-full">
                   <p className="text-white text-sm font-bold">
-                    {storyCredits} stories
+                    {t('storiesBadge', { count: storyCredits })}
                   </p>
                 </div>
               </div>
@@ -111,7 +113,9 @@ export async function PricingCards({ plansPromise }: PricingCardsProps) {
                   <h4 className="text-lg font-bold text-slate-900 mb-0.5">
                     {title}
                   </h4>
-                  <p className="text-slate-500 text-xs">One-time payment</p>
+                  <p className="text-slate-500 text-xs">
+                    {t('oneTimePayment')}
+                  </p>
                 </div>
 
                 {/* Price */}
@@ -120,7 +124,9 @@ export async function PricingCards({ plansPromise }: PricingCardsProps) {
                     <span className="text-3xl font-bold text-fuchsia-500">
                       {priceLabel}
                     </span>
-                    <span className="text-slate-500 text-xs">one-time</span>
+                    <span className="text-slate-500 text-xs">
+                      {t('oneTime')}
+                    </span>
                   </div>
                 </div>
 
@@ -141,7 +147,7 @@ export async function PricingCards({ plansPromise }: PricingCardsProps) {
                       </svg>
                     </div>
                     <span className="text-slate-700 text-sm">
-                      {storyCredits} story credits
+                      {t('storyCredits', { count: storyCredits })}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -159,7 +165,7 @@ export async function PricingCards({ plansPromise }: PricingCardsProps) {
                       </svg>
                     </div>
                     <span className="text-slate-700 text-sm">
-                      All languages included
+                      {t('allLanguages')}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -177,7 +183,7 @@ export async function PricingCards({ plansPromise }: PricingCardsProps) {
                       </svg>
                     </div>
                     <span className="text-slate-700 text-sm">
-                      No expiration
+                      {t('noExpiration')}
                     </span>
                   </div>
                 </div>

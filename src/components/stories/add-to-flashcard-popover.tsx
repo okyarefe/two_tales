@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Plus, Layers, Loader2, Search, Link } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -23,6 +24,7 @@ export default function AddToFlashcardPopover({
   targetSentence: string;
 }) {
   const { user } = useUser();
+  const t = useTranslations("AddToFlashcard");
   const [open, setOpen] = useState(false);
   const [flashcards, setFlashcards] = useState<FlashcardListItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -43,7 +45,7 @@ export default function AddToFlashcardPopover({
         });
         setFlashcards(list);
       } catch {
-        toast.error("Failed to load flashcards");
+        toast.error(t("loadError"));
       } finally {
         setLoading(false);
       }
@@ -63,7 +65,7 @@ export default function AddToFlashcardPopover({
     setAdding(flashcardId);
     const result = await addSentenceToFlashcard(flashcardId, sourceSentence, targetSentence);
     if (result.success) {
-      toast.success("Sentence added to flashcard");
+      toast.success(t("added"));
       setOpen(false);
     } else {
       toast.error(result.error);
@@ -77,7 +79,7 @@ export default function AddToFlashcardPopover({
         <Button
           variant="ghost"
           size="sm"
-          aria-label="Add sentence to flashcard"
+          aria-label={t("trigger")}
           className="text-accent hover:text-accent text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1.5 shrink-0 font-medium"
         >
           <Plus className="w-4 h-4" />
@@ -85,7 +87,7 @@ export default function AddToFlashcardPopover({
       </PopoverTrigger>
       <PopoverContent align="start" className="w-64 p-0">
         <div className="px-3 py-2 border-b border-slate-100">
-          <p className="text-sm font-medium text-slate-700">Add to flashcard</p>
+          <p className="text-sm font-medium text-slate-700">{t("heading")}</p>
         </div>
 
         <div className="px-3 py-2 border-b border-slate-100 flex items-center gap-2">
@@ -94,7 +96,7 @@ export default function AddToFlashcardPopover({
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search flashcards..."
+            placeholder={t("searchPlaceholder")}
             className="text-sm text-slate-700 placeholder:text-slate-400 outline-none bg-transparent w-full"
           />
         </div>
@@ -108,16 +110,16 @@ export default function AddToFlashcardPopover({
             <Layers className="w-8 h-8 text-slate-300 mx-auto mb-2" />
             {search.trim() ? (
               <p className="text-sm text-slate-500">
-                No flashcards match &quot;{search}&quot;
+                {t("noMatch", { search })}
               </p>
             ) : (
               <>
-                <p className="text-sm text-slate-500">No flashcards yet</p>
+                <p className="text-sm text-slate-500">{t("empty")}</p>
                 <Link
                   href="/flashcards"
                   className="text-xs text-accent hover:underline mt-1 inline-block"
                 >
-                  Go to flashcards
+                  {t("goToFlashcards")}
                 </Link>
               </>
             )}
@@ -142,7 +144,7 @@ export default function AddToFlashcardPopover({
                     {isAdding ? (
                       <Loader2 className="w-3 h-3 animate-spin" />
                     ) : isFull ? (
-                      "Full"
+                      t("full")
                     ) : (
                       `${fc.sentence_count}/10`
                     )}

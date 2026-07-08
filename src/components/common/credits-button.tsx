@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 import { getCheckoutURL } from '@/actions/lemon';
 import { useUser } from '@/contexts/user-context';
 
@@ -34,10 +35,11 @@ export function CreditsButton(props: {
   const { plan, currentPlan, embed = true } = props;
   const router = useRouter();
   const { user } = useUser();
+  const t = useTranslations('Credits');
   const [loading, setLoading] = useState(false);
   const isCurrent = plan.variantid === currentPlan?.variantid;
 
-  const label = isCurrent ? 'Your plan' : 'Get credits';
+  const label = isCurrent ? t('yourPlan') : t('getCredits');
 
   // Make sure Lemon.js is loaded, you need to enqueue the Lemon Squeezy SDK in your app first.
   useEffect(() => {
@@ -53,7 +55,7 @@ export function CreditsButton(props: {
     <Button
       onClick={async () => {
         if (!user) {
-          toast('Sign in to continue your purchase');
+          toast(t('signInToContinue'));
           router.push('/?next=/credits');
           return;
         }
@@ -73,7 +75,7 @@ export function CreditsButton(props: {
             error && typeof error === 'object' && 'digest' in error
               ? String((error as { digest?: unknown }).digest)
               : undefined;
-          toast.error('Error creating a checkout.', {
+          toast.error(t('checkoutError'), {
             description: digest ? `${message} (digest: ${digest})` : message,
           });
           return; // Exit early on error
@@ -89,14 +91,14 @@ export function CreditsButton(props: {
               window.LemonSqueezy.Url.Open(checkoutUrl);
             } else {
               console.error('❌ LemonSqueezy SDK not loaded!');
-              toast.error('Payment system not loaded', {
-                description: 'Please refresh the page and try again.',
+              toast.error(t('paymentNotLoaded'), {
+                description: t('paymentNotLoadedDesc'),
               });
             }
           } else {
             console.error('❌ No checkout URL returned');
-            toast.error('Failed to create checkout', {
-              description: 'No checkout URL was generated.',
+            toast.error(t('checkoutFailed'), {
+              description: t('checkoutFailedDesc'),
             });
           }
         } else {

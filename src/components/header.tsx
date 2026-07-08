@@ -6,6 +6,7 @@ import Image from 'next/image';
 import HeaderNav from './header-nav';
 import HeaderAuth from './auth-header';
 import MobileSidebar from './mobile-sidebar';
+import LanguageSwitcher from './language-switcher';
 
 export default function Header() {
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
@@ -90,7 +91,8 @@ export default function Header() {
           <HeaderNav />
         </div>
 
-        <div>
+        <div className="flex items-center gap-2 md:gap-3">
+          <LanguageSwitcher />
           <HeaderAuth />
         </div>
       </nav>

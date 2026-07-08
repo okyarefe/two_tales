@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Menu } from "lucide-react";
 import { cn } from "@/utils/utils";
 import { useUser } from "@/contexts/user-context";
@@ -21,6 +22,7 @@ export default function MobileSidebar({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { user } = useUser();
+  const t = useTranslations("Nav");
 
   // Helper to normalize paths
   const normalize = (path: string) => path.replace(/\/+$/, "");
@@ -36,7 +38,7 @@ export default function MobileSidebar({ className }: { className?: string }) {
           className={cn("md:hidden", className)}
         >
           <Menu className="h-6 w-6" />
-          <span className="sr-only">Toggle menu</span>
+          <span className="sr-only">{t("toggleMenu")}</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[280px] sm:w-[320px]">
@@ -76,7 +78,7 @@ export default function MobileSidebar({ className }: { className?: string }) {
                 )}
               >
                 {link.icon}
-                <span>{link.label}</span>
+                <span>{t(link.labelKey)}</span>
               </Link>
             );
           })}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2, Pause, Play, RotateCcw } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { getOrCreateSpeech } from "@/actions/tts";
 
@@ -14,6 +15,7 @@ interface SpeakButtonProps {
 type Status = "idle" | "loading" | "playing" | "paused" | "ended";
 
 export function SpeakButton({ text, voice, className }: SpeakButtonProps) {
+  const t = useTranslations("Audio");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const cachedUrlRef = useRef<string | null>(null);
   const isMountedRef = useRef(true);
@@ -44,7 +46,7 @@ export function SpeakButton({ text, voice, className }: SpeakButtonProps) {
       setCurrentTime(audio.duration);
     });
     audio.addEventListener("error", () => {
-      setError("Failed to play audio");
+      setError(t("error"));
       setStatus("idle");
     });
   }
@@ -125,7 +127,7 @@ export function SpeakButton({ text, voice, className }: SpeakButtonProps) {
         size="icon"
         onClick={handlePlayPause}
         disabled={isLoading}
-        aria-label={showPause ? "Pause" : "Play"}
+        aria-label={showPause ? t("pause") : t("play")}
       >
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -142,7 +144,7 @@ export function SpeakButton({ text, voice, className }: SpeakButtonProps) {
         size="icon"
         onClick={handleRestart}
         disabled={restartDisabled}
-        aria-label="Restart"
+        aria-label={t("restart")}
       >
         <RotateCcw className="h-4 w-4" />
       </Button>

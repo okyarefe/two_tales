@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { signInWithGoogle } from '@/utils/supabase/auth-client';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 type Variant = 'signin' | 'signup' | 'learn';
@@ -22,14 +23,15 @@ export default function GoogleSignInButton({
   showTextOnXs?: boolean;
   className?: string;
 }>) {
+  const t = useTranslations('Auth');
   const label =
     typeof children === 'string'
       ? children
       : variant === 'signin'
-        ? 'Sign in with Google'
+        ? t('signInWithGoogle')
         : variant === 'signup'
-          ? 'Sign up with Google'
-          : 'Start learning';
+          ? t('signUpWithGoogle')
+          : t('startLearning');
 
   // The 'learn' variant is the big hero CTA — caller controls all sizing.
   // signin/signup are navbar-sized.

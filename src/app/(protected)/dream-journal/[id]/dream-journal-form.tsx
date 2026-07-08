@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { getStoryFeedback } from "@/actions/feedback";
@@ -31,22 +32,6 @@ type DreamJournalFormProps = {
   existingFeedback?: StoreFeedbackRecord | null;
 };
 
-const CATEGORY_LABELS: Record<MistakeCategory, string> = {
-  case_ending: "Case Ending",
-  verb_conjugation: "Verb Conjugation",
-  tense: "Tense",
-  agreement: "Agreement",
-  possessive: "Possessive",
-  article: "Article",
-  gender: "Gender",
-  preposition: "Preposition",
-  word_order: "Word Order",
-  vocabulary: "Vocabulary",
-  spelling: "Spelling",
-  punctuation: "Punctuation",
-  other: "Other",
-};
-
 const SEVERITY_STYLES: Record<MistakeSeverity, string> = {
   high: "bg-red-100 text-red-800 border-red-200",
   medium: "bg-amber-100 text-amber-800 border-amber-200",
@@ -71,6 +56,7 @@ export function DreamJournalForm({
   feedbackGenerated,
   existingFeedback,
 }: DreamJournalFormProps) {
+  const t = useTranslations("DreamJournal");
   const [userAnswer, setuserAnswer] = useState(
     existingFeedback?.user_answer || "",
   );
@@ -99,11 +85,11 @@ export function DreamJournalForm({
       if (result.success && result.feedback) {
         setFeedback(result.feedback);
       } else {
-        setError(result.error || "Failed to get feedback");
+        setError(result.error || t("getFeedbackError"));
       }
     } catch (error) {
       console.error("Error submitting story:", error);
-      setError("An unexpected error occurred. Please try again.");
+      setError(t("unexpectedError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -113,13 +99,13 @@ export function DreamJournalForm({
     <div className="space-y-4">
       <div>
         <label htmlFor="user-story" className="block text-sm font-medium mb-2">
-          Write the story in {targetLanguage}:
+          {t("writeLabel", { language: targetLanguage })}
         </label>
         <Textarea
           id="user-story"
           value={userAnswer}
           onChange={(e) => setuserAnswer(e.target.value)}
-          placeholder={`Write your version of the story in ${targetLanguage}...`}
+          placeholder={t("writePlaceholder", { language: targetLanguage })}
           className="min-h-[300px] resize-y text-sm sm:text-base bg-white"
           disabled={feedbackGenerated}
         />
@@ -136,16 +122,16 @@ export function DreamJournalForm({
           variant="secondary"
         >
           {feedbackGenerated
-            ? "Feedback Already Generated"
+            ? t("alreadyGenerated")
             : isSubmitting
-              ? "Submitting..."
-              : "Submit for Feedback"}
+              ? t("submitting")
+              : t("submit")}
         </Button>
       </div>
 
       {feedbackGenerated && !feedback && (
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-800 text-sm">
-          Loading your previous feedback...
+          {t("loadingPrevious")}
         </div>
       )}
 
@@ -162,13 +148,13 @@ export function DreamJournalForm({
               {feedback.brief_feedback}
             </p>
             <p className="text-xs text-blue-700 mt-1">
-              Mistakes found: {feedback.mistakes_count}
+              {t("mistakesFound", { count: feedback.mistakes_count })}
             </p>
           </div>
 
           {feedback.mistakes.length === 0 ? (
             <div className="text-sm text-green-700 font-medium">
-              No mistakes found — well done!
+              {t("noMistakes")}
             </div>
           ) : (
             <div className="space-y-4">
@@ -179,10 +165,10 @@ export function DreamJournalForm({
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-semibold text-blue-900">
-                      {CATEGORY_LABELS[category]}
+                      {t(`category.${category}`)}
                     </h3>
                     <span className="text-xs text-blue-700">
-                      {items.length} {items.length === 1 ? "mistake" : "mistakes"}
+                      {t("mistakeCount", { count: items.length })}
                     </span>
                   </div>
 
@@ -196,7 +182,7 @@ export function DreamJournalForm({
                           <span
                             className={`inline-flex items-center text-[10px] uppercase tracking-wide font-semibold px-1.5 py-0.5 rounded border ${SEVERITY_STYLES[m.severity]}`}
                           >
-                            {m.severity}
+                            {t(`severity.${m.severity}`)}
                           </span>
                         </div>
 

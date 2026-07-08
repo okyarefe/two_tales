@@ -7,6 +7,7 @@ import {
   Languages,
   Layers,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { getFlashcardById } from "@/lib/supabase/queries/stories";
 import SentenceCard from "./sentence-card";
@@ -34,6 +35,7 @@ export default async function FlashcardDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const t = await getTranslations("Flashcards");
 
   const flashcard = await getFlashcardById(id);
 
@@ -54,7 +56,7 @@ export default async function FlashcardDetailPage({
             className="inline-flex items-center gap-1.5 text-sm text-ink-500 hover:text-accent transition-colors mb-3"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to flashcards
+            {t("backToFlashcards")}
           </Link>
 
           <div className="flex items-start justify-between gap-4">
@@ -76,8 +78,7 @@ export default async function FlashcardDetailPage({
                 )}
                 <Badge variant="outline" className="gap-1.5">
                   <BookOpen className="w-3 h-3" />
-                  {sentenceCount}{" "}
-                  {sentenceCount === 1 ? "sentence" : "sentences"}
+                  {t("sentenceCount", { count: sentenceCount })}
                 </Badge>
                 {sentenceCount > 0 && (
                   <Badge
@@ -85,7 +86,10 @@ export default async function FlashcardDetailPage({
                     className="gap-1.5 border-green-200 text-green-700 bg-green-50"
                   >
                     <CheckCircle className="w-3 h-3" />
-                    {learnedCount}/{sentenceCount} learned
+                    {t("learnedCount", {
+                      learned: learnedCount,
+                      total: sentenceCount,
+                    })}
                   </Badge>
                 )}
               </div>
@@ -106,16 +110,14 @@ export default async function FlashcardDetailPage({
               <BookOpen className="w-8 h-8 text-slate-400" />
             </div>
             <h3 className="text-lg font-medium text-slate-700 mb-1">
-              No sentences yet
+              {t("noSentencesTitle")}
             </h3>
-            <p className="text-sm text-slate-500">
-              This flashcard doesn&apos;t have any sentences.
-            </p>
+            <p className="text-sm text-slate-500">{t("noSentencesBody")}</p>
           </div>
         ) : (
           <div className="space-y-3">
             <p className="text-sm text-slate-500 mb-4">
-              Tap each sentence to reveal its translation.
+              {t("tapEachToReveal")}
             </p>
             {flashcard.flashcard_sentences.map((sentence, index) => (
               <SentenceCard

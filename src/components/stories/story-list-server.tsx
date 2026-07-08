@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Story } from "@/types";
 import { getUserStories, searchUserStories } from "@/lib/supabase/queries";
 import { StoryCard } from "@/components/stories/story-card";
@@ -17,6 +18,7 @@ export default async function StoryListServer({
   query,
   page,
 }: StoryListServerProps) {
+  const t = await getTranslations("StoryList");
   let stories: Story[];
   let totalPages = 1;
 
@@ -48,16 +50,16 @@ export default async function StoryListServer({
               href={`/stories?page=${page - 1}`}
               className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
             >
-              Previous
+              {t("previous")}
             </Link>
           ) : (
             <span className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-300 cursor-not-allowed">
-              Previous
+              {t("previous")}
             </span>
           )}
 
           <span className="text-sm text-slate-600">
-            Page {page} of {totalPages}
+            {t("pageOf", { page, total: totalPages })}
           </span>
 
           {page < totalPages ? (
@@ -65,11 +67,11 @@ export default async function StoryListServer({
               href={`/stories?page=${page + 1}`}
               className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
             >
-              Next
+              {t("next")}
             </Link>
           ) : (
             <span className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-300 cursor-not-allowed">
-              Next
+              {t("next")}
             </span>
           )}
         </div>

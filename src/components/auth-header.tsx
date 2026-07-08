@@ -7,6 +7,7 @@ import { ClipLoader } from 'react-spinners';
 
 import { useUser } from '@/contexts/user-context';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import type { CSSProperties } from 'react';
 
 function useMobileLandscape() {
@@ -32,6 +33,7 @@ export default function HeaderAuth({
   const { user, userData, isLoading, signOut } = useUser();
   const [isSigningOut] = useState(false);
   const mobileLandscape = useMobileLandscape();
+  const t = useTranslations('Auth');
 
   const getInitial = (email?: string) => email?.charAt(0).toUpperCase() || '?';
 
@@ -75,16 +77,16 @@ export default function HeaderAuth({
           <div className="p-4 space-y-3">
             <div className="text-sm text-gray-600">
               <p>
-                <strong>Email:</strong> {user.email}
+                <strong>{t('email')}:</strong> {user.email}
               </p>
               {userData && (
                 <>
                   <p>
-                    <strong>Role:</strong>{' '}
+                    <strong>{t('role')}:</strong>{' '}
                     <span className="capitalize">{userData.role}</span>
                   </p>
                   <p>
-                    <strong>Membership:</strong>{' '}
+                    <strong>{t('membership')}:</strong>{' '}
                     <span className="capitalize">
                       {userData.membershipType}
                     </span>
@@ -104,7 +106,7 @@ export default function HeaderAuth({
               className="w-full"
               onClick={signOut}
             >
-              Sign Out
+              {t('signOut')}
             </Button>
           </div>
         </PopoverContent>
@@ -124,13 +126,17 @@ export default function HeaderAuth({
       {orientation !== 'vertical' && (
         <div className="hidden sm:block">
           <GoogleSignInButton variant="signin">
-            {mobileLandscape ? '' : 'Sign In'}
+            {mobileLandscape ? '' : t('signIn')}
           </GoogleSignInButton>
         </div>
       )}
 
       <GoogleSignInButton variant="signup">
-        {mobileLandscape ? '' : orientation === 'vertical' ? 'Up' : 'Sign Up'}
+        {mobileLandscape
+          ? ''
+          : orientation === 'vertical'
+            ? t('up')
+            : t('signUp')}
       </GoogleSignInButton>
     </div>
   );

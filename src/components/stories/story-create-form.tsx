@@ -23,12 +23,14 @@ import { languages, languageLevels, grammarTopics } from '@/constants';
 import { language } from '@/types';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 import { useUser } from '@/contexts/user-context';
 import StoryGenerationOverlay, {
   GenerationStatus,
 } from './story-generation-overlay';
 
 export default function TopicCreateForm() {
+  const t = useTranslations('CreateStory');
   const { userData } = useUser();
   const baseLanguage = userData?.nativeLanguage ?? 'English';
   const targetLanguages = languages.filter((lang) => lang !== baseLanguage);
@@ -117,13 +119,13 @@ export default function TopicCreateForm() {
         <Button variant="accent">
           {' '}
           <Plus className="w-4 h-4 mr-2" />
-          Create story
+          {t('trigger')}
         </Button>
       </PopoverTrigger>
       <PopoverContent>
         <form onSubmit={handleSubmit} noValidate>
           <div className="flex flex-col gap-4 p-4">
-            <h3>Create a Story</h3>
+            <h3>{t('heading')}</h3>
             <div className="flex flex-col gap-4 w-full">
               <div className="w-full">
                 <DropdownMenu modal={false}>
@@ -134,13 +136,13 @@ export default function TopicCreateForm() {
                         : 'border-gray-300'
                     }`}
                   >
-                    {selectedLanguage || 'Which language are you learning?'}
+                    {selectedLanguage || t('languagePlaceholder')}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     collisionPadding={8}
                     className="w-[var(--radix-dropdown-menu-trigger-width)]"
                   >
-                    <DropdownMenuLabel>Languages</DropdownMenuLabel>
+                    <DropdownMenuLabel>{t('languagesLabel')}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {targetLanguages.map((lang) => (
                       <DropdownMenuItem
@@ -154,8 +156,10 @@ export default function TopicCreateForm() {
                 </DropdownMenu>
                 {selectedLanguage && (
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Your story: {baseLanguage} ↔ {selectedLanguage} — you speak{' '}
-                    {baseLanguage}, change it on your dashboard
+                    {t('pairHint', {
+                      base: baseLanguage,
+                      target: selectedLanguage,
+                    })}
                   </p>
                 )}
                 {!isGenerating && formState.errors.language && (
@@ -178,15 +182,13 @@ export default function TopicCreateForm() {
                         : 'border-gray-300'
                     }`}
                   >
-                    {selectedLanguageLevel || 'Select a Level'}
+                    {selectedLanguageLevel || t('levelPlaceholder')}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     collisionPadding={8}
                     className="w-[var(--radix-dropdown-menu-trigger-width)]"
                   >
-                    <DropdownMenuLabel>
-                      Language Levels (CEFR)
-                    </DropdownMenuLabel>
+                    <DropdownMenuLabel>{t('levelsLabel')}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {languageLevels.map((langLevel) => (
                       <DropdownMenuItem
@@ -195,11 +197,7 @@ export default function TopicCreateForm() {
                       >
                         <span className="font-semibold">{langLevel}</span>
                         <span className="text-xs">
-                          {langLevel === 'A1' && '(Beginner)'}
-                          {langLevel === 'A2' && '(Elementary)'}
-                          {langLevel === 'B1' && '(Intermediate)'}
-                          {langLevel === 'B2' && '(Upper Int.)'}
-                          {langLevel === 'C1/C2' && '(Advanced)'}
+                          {t(`level${langLevel.replace('/', '')}`)}
                         </span>
                       </DropdownMenuItem>
                     ))}
@@ -225,13 +223,13 @@ export default function TopicCreateForm() {
                         : 'border-gray-300'
                     }`}
                   >
-                    {selectedTopic || 'Select a topic'}
+                    {selectedTopic || t('topicPlaceholder')}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     collisionPadding={8}
                     className="w-[var(--radix-dropdown-menu-trigger-width)]"
                   >
-                    <DropdownMenuLabel>Topics</DropdownMenuLabel>
+                    <DropdownMenuLabel>{t('topicsLabel')}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {grammarTopics.map((topic) => (
                       <DropdownMenuItem
@@ -254,7 +252,7 @@ export default function TopicCreateForm() {
 
             <Input
               name="title"
-              placeholder="title"
+              placeholder={t('titlePlaceholder')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             ></Input>
@@ -265,7 +263,7 @@ export default function TopicCreateForm() {
             )}
             <Textarea
               name="prompt"
-              placeholder="Describe your story"
+              placeholder={t('promptPlaceholder')}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
             ></Textarea>
@@ -279,7 +277,9 @@ export default function TopicCreateForm() {
                 {formState.errors._form.join(', ')}
               </div>
             ) : null}
-            <FormButton isLoading={isGenerating}>Submit</FormButton>
+            <FormButton isLoading={isGenerating} loadingText={t('generating')}>
+              {t('submit')}
+            </FormButton>
           </div>
         </form>
       </PopoverContent>

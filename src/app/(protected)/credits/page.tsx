@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { CalendarX, Infinity as InfinityIcon, ShieldCheck } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { getPlans } from '@/actions/lemon';
 import { PricingCards } from './components/pricing-cards';
 import { PricingCardsSkeleton } from './components/pricing-cards-skeleton';
@@ -12,43 +13,41 @@ export const metadata = {
 // ISR: Revalidate once per day (86400 seconds)
 export const revalidate = 86400;
 
-const guarantees = [
-  {
-    icon: CalendarX,
-    title: 'No subscription',
-    description: 'Charged once. Nothing renews in the background.',
-  },
-  {
-    icon: InfinityIcon,
-    title: 'Credits never expire',
-    description: 'Use them at your own pace, whenever you read.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Nothing to cancel',
-    description: 'No card on file, no auto-renewal to remember.',
-  },
-];
-
-export default function GetCreditsPage() {
+export default async function GetCreditsPage() {
   // Use cached plans from database for instant loading
   const plansPromise = getPlans();
+  const t = await getTranslations('Credits');
+
+  const guarantees = [
+    {
+      icon: CalendarX,
+      title: t('guarantee1Title'),
+      description: t('guarantee1Body'),
+    },
+    {
+      icon: InfinityIcon,
+      title: t('guarantee2Title'),
+      description: t('guarantee2Body'),
+    },
+    {
+      icon: ShieldCheck,
+      title: t('guarantee3Title'),
+      description: t('guarantee3Body'),
+    },
+  ];
 
   return (
     <div className="py-12" style={{ scrollbarGutter: 'stable' }}>
       <div className="container mx-auto px-4 max-w-6xl">
         <header className="mb-14 max-w-3xl mx-auto text-center">
-          <span className="tt-eyebrow">Pay-as-you-go pricing</span>
+          <span className="tt-eyebrow">{t('eyebrow')}</span>
           <h1 className="text-display mt-4 text-foreground">
-            Buy credits when you need them.{' '}
+            {t('headingMain')}{' '}
             <span className="font-serif italic text-accent">
-              Nothing renews.
+              {t('headingAccent')}
             </span>
           </h1>
-          <p className="text-subtitle mt-5 max-w-xl mx-auto">
-            One-time purchases. No subscriptions, no auto-renewals, no expiry —
-            and nothing to remember to cancel.
-          </p>
+          <p className="text-subtitle mt-5 max-w-xl mx-auto">{t('subtitle')}</p>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
             {guarantees.map((g) => (

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Layers } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { getUserFlashcards } from "@/lib/supabase/queries/stories";
 import FlashcardCard from "./flashcard-card";
 
@@ -18,6 +19,8 @@ export default async function FlashcardListServer({
     PAGE_SIZE,
   );
   const totalPages = Math.ceil(total / PAGE_SIZE);
+  const t = await getTranslations("Flashcards");
+  const tp = await getTranslations("StoryList");
 
   return (
     <>
@@ -27,11 +30,9 @@ export default async function FlashcardListServer({
             <Layers className="w-8 h-8 text-slate-400" />
           </div>
           <h3 className="text-lg font-medium text-slate-700 mb-1">
-            No flashcards yet
+            {t("emptyTitle")}
           </h3>
-          <p className="text-sm text-slate-500">
-            Flashcards you create from your stories will appear here.
-          </p>
+          <p className="text-sm text-slate-500">{t("emptyBody")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -49,16 +50,16 @@ export default async function FlashcardListServer({
               href={`/flashcards?page=${page - 1}`}
               className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
             >
-              Previous
+              {tp("previous")}
             </Link>
           ) : (
             <span className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-300 cursor-not-allowed">
-              Previous
+              {tp("previous")}
             </span>
           )}
 
           <span className="text-sm text-slate-600">
-            Page {page} of {totalPages}
+            {tp("pageOf", { page, total: totalPages })}
           </span>
 
           {page < totalPages ? (
@@ -66,11 +67,11 @@ export default async function FlashcardListServer({
               href={`/flashcards?page=${page + 1}`}
               className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
             >
-              Next
+              {tp("next")}
             </Link>
           ) : (
             <span className="px-4 py-2 text-sm font-medium rounded-md bg-white border border-slate-200 text-slate-300 cursor-not-allowed">
-              Next
+              {tp("next")}
             </span>
           )}
         </div>

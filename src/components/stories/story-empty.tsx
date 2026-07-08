@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { BookPlus, SearchX } from "lucide-react";
+import { useTranslations } from "next-intl";
 import TopicCreateForm from "./story-create-form";
 
 interface EmptyStoriesStateProps {
@@ -9,6 +10,7 @@ interface EmptyStoriesStateProps {
 }
 
 export default function StoryEmpty({ isSearch = false }: EmptyStoriesStateProps) {
+  const t = useTranslations("StoryEmpty");
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -26,12 +28,10 @@ export default function StoryEmpty({ isSearch = false }: EmptyStoriesStateProps)
 
       <div className="max-w-md space-y-2">
         <h3 className="text-xl font-bold text-slate-900">
-          {isSearch ? "No stories found" : "Your story library is empty"}
+          {isSearch ? t("searchTitle") : t("emptyTitle")}
         </h3>
         <p className="text-slate-500">
-          {isSearch
-            ? "We couldn't find any stories matching your search. Try a different term or clear the search."
-            : "Transform your ideas into amazing stories. Start your journey by creating your first story today."}
+          {isSearch ? t("searchBody") : t("emptyBody")}
         </p>
       </div>
 

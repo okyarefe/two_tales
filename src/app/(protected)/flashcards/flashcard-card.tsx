@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { BookOpen, CheckCircle, Layers, Trash2 } from "lucide-react";
 import {
   Card,
@@ -18,6 +19,7 @@ import { deleteFlashcardAction } from "@/actions/flashcards";
 import type { Flashcard } from "@/types";
 
 export default function FlashcardCard({ flashcard }: { flashcard: Flashcard }) {
+  const t = useTranslations("Flashcards");
   const sentenceCount = flashcard.flashcard_sentences.length;
   const learnedCount = flashcard.flashcard_sentences.filter(
     (s) => s.is_learned,
@@ -77,7 +79,7 @@ export default function FlashcardCard({ flashcard }: { flashcard: Flashcard }) {
         <CardContent className="flex flex-wrap gap-2">
           <Badge variant="outline" className="gap-1.5">
             <BookOpen className="w-3 h-3" />
-            {sentenceCount} {sentenceCount === 1 ? "sentence" : "sentences"}
+            {t("sentenceCount", { count: sentenceCount })}
           </Badge>
           {learnedCount > 0 && (
             <Badge
@@ -92,7 +94,7 @@ export default function FlashcardCard({ flashcard }: { flashcard: Flashcard }) {
 
         <CardFooter>
           <span className="text-xs text-ink-400 group-hover:text-accent transition-colors">
-            Click to study →
+            {t("clickToStudy")}
           </span>
         </CardFooter>
       </Card>

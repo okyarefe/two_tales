@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Crown, Calendar } from 'lucide-react';
+import { getTranslations, getFormatter } from 'next-intl/server';
 import type { User } from '@supabase/supabase-js';
 import type { UserData } from '@/types';
 import { NativeLanguageSelect } from './native-language-select';
@@ -16,6 +17,8 @@ export async function ProfileHeader({
   userDataPromise,
 }: ProfileHeaderProps) {
   const userData = await userDataPromise;
+  const t = await getTranslations('Dashboard');
+  const format = await getFormatter();
 
   const displayName =
     user.user_metadata?.full_name || user.email?.split('@')[0] || 'Learner';
@@ -28,11 +31,11 @@ export async function ProfileHeader({
     .slice(0, 2);
 
   const memberSince = user.created_at
-    ? new Date(user.created_at).toLocaleDateString('en-US', {
+    ? format.dateTime(new Date(user.created_at), {
         month: 'long',
         year: 'numeric',
       })
-    : 'Unknown';
+    : '—';
 
   return (
     <Card className="hover:translate-y-0">
@@ -57,7 +60,7 @@ export async function ProfileHeader({
           <p className="text-sm text-slate-500">{user.email}</p>
           <div className="flex items-center gap-1.5 text-xs text-slate-400 justify-center sm:justify-start">
             <Calendar className="size-3" />
-            <span>Member since {memberSince}</span>
+            <span>{t('memberSince', { date: memberSince })}</span>
           </div>
           <NativeLanguageSelect
             initialLanguage={userData?.nativeLanguage ?? 'English'}
@@ -69,14 +72,14 @@ export async function ProfileHeader({
             <div className="text-2xl font-bold text-slate-800">
               {userData?.storiesCreated ?? 0}
             </div>
-            <div className="text-xs text-slate-500">Stories</div>
+            <div className="text-xs text-slate-500">{t('stories')}</div>
           </div>
           <div className="w-px bg-slate-200" />
           <div>
             <div className="text-2xl font-bold text-slate-800">
               {userData?.storyCredit ?? 0}
             </div>
-            <div className="text-xs text-slate-500">Credits</div>
+            <div className="text-xs text-slate-500">{t('credits')}</div>
           </div>
         </div>
       </CardContent>

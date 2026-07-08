@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Flame, TrendingUp, Trophy, Zap } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 // Mock streak data — replace with real data when backend is ready
 const MOCK_STREAK = {
@@ -23,15 +24,16 @@ const MOCK_STREAK = {
   ],
 };
 
-export function StreakDisplay() {
+export async function StreakDisplay() {
   const streak = MOCK_STREAK;
+  const t = await getTranslations('Dashboard');
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Flame className="size-5 text-orange-500" />
-          Learning Streak
+          {t('streakTitle')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -42,7 +44,7 @@ export function StreakDisplay() {
               {streak.currentStreak}
             </div>
             <div className="text-sm text-orange-500 font-medium">
-              Day streak
+              {t('dayStreak')}
             </div>
           </div>
         </div>
@@ -54,7 +56,7 @@ export function StreakDisplay() {
               <div className="text-lg font-semibold text-slate-800">
                 {streak.longestStreak}
               </div>
-              <div className="text-xs text-slate-500">Best streak</div>
+              <div className="text-xs text-slate-500">{t('bestStreak')}</div>
             </div>
           </div>
           <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-3">
@@ -63,7 +65,7 @@ export function StreakDisplay() {
               <div className="text-lg font-semibold text-slate-800">
                 {streak.totalActiveDays}
               </div>
-              <div className="text-xs text-slate-500">Total days</div>
+              <div className="text-xs text-slate-500">{t('totalDays')}</div>
             </div>
           </div>
         </div>
@@ -72,7 +74,7 @@ export function StreakDisplay() {
           <div className="flex items-center gap-1.5 mb-3">
             <Zap className="size-3.5 text-slate-400" />
             <span className="text-sm font-medium text-slate-600">
-              This week
+              {t('thisWeek')}
             </span>
           </div>
           <div className="flex justify-between gap-1.5">
@@ -99,7 +101,7 @@ export function StreakDisplay() {
 
         <div>
           <span className="text-sm font-medium text-slate-600">
-            Last 4 weeks
+            {t('last4Weeks')}
           </span>
           <div className="mt-2 flex flex-col gap-1">
             {streak.monthlyActivity.map((week, weekIdx) => (
@@ -116,12 +118,12 @@ export function StreakDisplay() {
             ))}
           </div>
           <div className="flex items-center gap-1 mt-2 text-[10px] text-slate-400">
-            <span>Less</span>
+            <span>{t('less')}</span>
             <div className="size-3 rounded-sm bg-slate-100" />
             <div className="size-3 rounded-sm bg-orange-200" />
             <div className="size-3 rounded-sm bg-orange-400" />
             <div className="size-3 rounded-sm bg-orange-600" />
-            <span>More</span>
+            <span>{t('more')}</span>
           </div>
         </div>
       </CardContent>

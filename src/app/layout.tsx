@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Source_Serif_4, Inter, JetBrains_Mono } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
@@ -70,13 +72,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
         <script
@@ -110,9 +115,11 @@ export default function RootLayout({
       <body
         className={`${sourceSerif.variable} ${inter.variable} ${jetbrainsMono.variable} font-serif tt-paper`}
       >
-        <div className={`h-full flex flex-col ${styles.landscapeRow}`}>
-          {children}
-        </div>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <div className={`h-full flex flex-col ${styles.landscapeRow}`}>
+            {children}
+          </div>
+        </NextIntlClientProvider>
         <Analytics />
         <Toaster />
       </body>
