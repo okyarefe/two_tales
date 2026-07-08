@@ -1,4 +1,7 @@
-export default function Loading() {
+import { getTranslations } from "next-intl/server";
+
+export default async function Loading() {
+  const t = await getTranslations("Flashcards");
   return (
     <div className="flex-1 bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="bg-white/50 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-20 w-full shadow-sm">
@@ -6,13 +9,13 @@ export default function Loading() {
           <div className="space-y-6">
             <div className="flex flex-row items-center justify-between">
               <h2 className="text-2xl font-semibold text-slate-800 tracking-tight">
-                My FlashCards
+                {t("title")}
               </h2>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <p className="text-sm text-slate-600 font-sans hidden sm:block">
-                Access and manage all your generated flashcards in one place.
+                {t("subtitle")}
               </p>
             </div>
           </div>

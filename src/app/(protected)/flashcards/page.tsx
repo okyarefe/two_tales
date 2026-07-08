@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
 import { getUser } from "@/utils/supabase/auth-server";
 import FlashcardListServer from "./flashcard-list-server";
 import CreateFlashcardForm from "./create-flashcard-form";
@@ -14,6 +15,7 @@ export default async function FlashcardsPage({
 }) {
   const user = await getUser();
   const params = await searchParams;
+  const t = await getTranslations("Flashcards");
 
   // Parse page number from URL, default to 1, ensure it's at least 1
   const rawPage = Array.isArray(params.page) ? params.page[0] : params.page;
@@ -26,13 +28,13 @@ export default async function FlashcardsPage({
           <div className="space-y-6">
             <div className="flex flex-row items-center justify-between">
               <h2 className="text-2xl font-semibold text-slate-800 tracking-tight">
-                My FlashCards
+                {t("title")}
               </h2>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <p className="text-sm text-slate-600 font-sans hidden sm:block">
-                Access and manage all your generated flashcards in one place.
+                {t("subtitle")}
               </p>
             </div>
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import { Eye, EyeOff, CheckCircle, Circle } from "lucide-react";
 import { toggleSentenceLearnedAction } from "@/actions/flashcards";
 import type { FlashcardSentence } from "@/types";
@@ -12,6 +13,7 @@ export default function SentenceCard({
   sentence: FlashcardSentence;
   index: number;
 }) {
+  const t = useTranslations("Flashcards");
   const [revealed, setRevealed] = useState(false);
   const [learned, setLearned] = useState(sentence.is_learned);
   const [isPending, startTransition] = useTransition();
@@ -71,7 +73,7 @@ export default function SentenceCard({
                   ? "text-green-500"
                   : "text-slate-300 hover:text-green-500"
               }`}
-              title={learned ? "Mark as not learned" : "Mark as learned"}
+              title={learned ? t("markNotLearned") : t("markLearned")}
             >
               {learned ? (
                 <CheckCircle className="w-5 h-5" />
@@ -121,7 +123,7 @@ export default function SentenceCard({
         <div className="overflow-hidden">
           <div className="px-5 py-2.5 bg-slate-50">
             <p className="text-xs text-slate-400 text-center">
-              Tap to reveal translation
+              {t("tapToReveal")}
             </p>
           </div>
         </div>

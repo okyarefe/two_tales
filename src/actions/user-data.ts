@@ -1,11 +1,15 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { getUserStoriesCount } from '@/lib/supabase/queries/stories';
 import { getUserFlashcardsCount } from '@/lib/supabase/queries/flashcards';
 import { updateUserNativeLanguage } from '@/lib/supabase/queries';
 import { languages } from '@/constants';
+import { LOCALE_COOKIE, localeFromLanguage } from '@/i18n/config';
 import type { ActionResult, UserData } from '@/types';
+
+const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // one year
 
 export async function getUserData(userId: string): Promise<UserData | null> {
   const supabase = await createClient();
@@ -67,7 +71,60 @@ export async function updateNativeLanguage(
     }
 
     await updateUserNativeLanguage(user.id, nativeLanguage);
+
+    // Point the app UI at the new language on the next render.
+    const cookieStore = await cookies();
+    cookieStore.set(LOCALE_COOKIE, localeFromLanguage(nativeLanguage), {
+      path: '/',
+      maxAge: LOCALE_COOKIE_MAX_AGE,
+      sameSite: 'lax',
+    });
+
     return { success: true, data: nativeLanguage };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : 'Error updating your language',
+    };
+  }
+}
+
+/**
+ * Sets the app UI language for anyone (used by the navbar switcher).
+ * Always writes the locale cookie. If the visitor is signed in, it also
+ * persists the choice to native_language so it survives login and stays the
+ * single source of truth for both the UI and the story base language.
+ */
+export async function setUserLanguage(
+  language: string,
+): Promise<ActionResult<string>> {
+  try {
+    if (!(languages as readonly string[]).includes(language)) {
+      return { success: false, error: 'Please choose a valid language' };
+    }
+
+    const cookieStore = await cookies();
+    cookieStore.set(LOCALE_COOKIE, localeFromLanguage(language), {
+      path: '/',
+      maxAge: LOCALE_COOKIE_MAX_AGE,
+      sameSite: 'lax',
+    });
+
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      // Best-effort persistence; the cookie already reflects the choice.
+      try {
+        await updateUserNativeLanguage(user.id, language);
+      } catch (error) {
+        console.error('Failed to persist language preference', error);
+      }
+    }
+
+    return { success: true, data: language };
   } catch (error) {
     return {
       success: false,

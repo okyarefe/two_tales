@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 
 interface StorySearchProps {
@@ -9,6 +10,7 @@ interface StorySearchProps {
 }
 
 export default function StorySearch({ initial = "" }: StorySearchProps) {
+  const t = useTranslations("StorySearch");
   const router = useRouter();
   const [value, setValue] = useState(initial);
   const [debounced, setDebounced] = useState(initial);
@@ -61,8 +63,8 @@ export default function StorySearch({ initial = "" }: StorySearchProps) {
   return (
     <div className="flex items-center space-x-2 w-full">
       <input
-        aria-label="Search stories by title"
-        placeholder="Search by title..."
+        aria-label={t("ariaLabel")}
+        placeholder={t("placeholder")}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className="px-3 py-2 border rounded-md text-sm w-full min-w-[200px] sm:min-w-[240px] md:min-w-[280px] focus:outline-none focus:ring-2 focus:ring-accent/40"
@@ -76,14 +78,14 @@ export default function StorySearch({ initial = "" }: StorySearchProps) {
         <button
           onClick={onClear}
           className="p-2 rounded-md hover:bg-slate-100"
-          aria-label="Clear search"
+          aria-label={t("clear")}
         >
           <X className="w-6 h-6 text-ink-700 border border-accent/40 rounded-md" />
         </button>
       ) : null}
       {isPending ? (
         <span className="sr-only" aria-live="polite">
-          Searching…
+          {t("searching")}
         </span>
       ) : null}
     </div>

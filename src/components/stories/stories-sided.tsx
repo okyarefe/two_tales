@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import AddToFlashcardPopover from "./add-to-flashcard-popover";
 
@@ -20,6 +21,7 @@ export const StorySideBySide: React.FC<StorySideBySideProps> = ({
   storyA,
   storyB,
 }) => {
+  const t = useTranslations("StoryReader");
   const sentencesA = useMemo(() => splitSentences(storyA), [storyA]);
   const sentencesB = useMemo(() => splitSentences(storyB), [storyB]);
   const maxLen = Math.max(sentencesA.length, sentencesB.length);
@@ -60,7 +62,7 @@ export const StorySideBySide: React.FC<StorySideBySideProps> = ({
           className="sentence-controls__btn text-sm sm:text-base px-4 py-2 sm:px-5 sm:py-2.5 font-semibold tracking-wide transition-all"
           onClick={hideAllB}
         >
-          Hide all
+          {t("hideAll")}
         </Button>
         <Button
           variant="accentSoft"
@@ -68,7 +70,7 @@ export const StorySideBySide: React.FC<StorySideBySideProps> = ({
           className="sentence-controls__btn text-sm sm:text-base px-4 py-2 sm:px-5 sm:py-2.5 font-semibold tracking-wide transition-all"
           onClick={showAllB}
         >
-          Show all
+          {t("showAll")}
         </Button>
       </div>
 
@@ -121,10 +123,10 @@ export const StorySideBySide: React.FC<StorySideBySideProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => toggleSentenceB(idx)}
-                  aria-label={isHidden ? "Show sentence" : "Hide sentence"}
+                  aria-label={isHidden ? t("show") : t("hide")}
                   className="text-accent hover:bg-accent/10 text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1.5 shrink-0 font-medium"
                 >
-                  {isHidden ? "Show" : "Hide"}
+                  {isHidden ? t("show") : t("hide")}
                 </Button>
               </div>
             </div>

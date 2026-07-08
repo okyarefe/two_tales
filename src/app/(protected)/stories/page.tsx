@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getUser } from "@/utils/supabase/auth-server";
 import StorySearch from "@/components/stories/story-search";
 import TopicCreateForm from "@/components/stories/story-create-form";
@@ -21,6 +22,7 @@ export default async function StoriesPage({
     redirect("/");
   }
 
+  const t = await getTranslations("Stories");
   const params = await searchParams;
   const query = params.q ?? "";
   const q = Array.isArray(query) ? (query[0] ?? "") : (query ?? "");
@@ -36,7 +38,7 @@ export default async function StoriesPage({
           <div className="space-y-6">
             <div className="flex flex-row items-center justify-between">
               <h2 className="text-2xl font-semibold text-slate-800 tracking-tight">
-                My Stories
+                {t("title")}
               </h2>
               <div className="flex items-center gap-3">
                 <TopicCreateForm />
@@ -45,7 +47,7 @@ export default async function StoriesPage({
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <p className="text-sm text-slate-600 font-sans hidden sm:block">
-                Access and manage all your generated stories in one place.
+                {t("subtitle")}
               </p>
               <div className="relative w-full sm:w-[300px] md:w-[400px] sm:order-first">
                 <StorySearch initial={q} />

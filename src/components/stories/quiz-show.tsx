@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 export interface QuizQuestion {
@@ -13,10 +14,13 @@ interface QuizShowPageProps {
 }
 
 export const QuizShowPage: React.FC<QuizShowPageProps> = ({ questions }) => {
+  const t = useTranslations("StoryReader");
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   return (
     <div className="w-full px-2">
-      <h2 className="text-left text-lg font-semibold mb-4">Quiz Questions</h2>
+      <h2 className="text-left text-lg font-semibold mb-4">
+        {t("quizQuestions")}
+      </h2>
       <ul className="list-none p-0">
         {questions.map((q, idx) => (
           <li key={q.id} className="mb-2">

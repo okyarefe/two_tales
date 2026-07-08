@@ -4,16 +4,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { BookOpenText, CheckCircle2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useTranslations } from 'next-intl';
 
 export type GenerationStatus = 'idle' | 'generating' | 'success';
 
-const stages = [
-  'Writing your story…',
-  'Translating each sentence…',
-  'Generating quiz questions…',
-  'Adding final touches…',
-];
-
+const STAGE_COUNT = 4;
 const STAGE_INTERVAL_MS = 3000;
 
 interface StoryGenerationOverlayProps {
@@ -23,6 +18,7 @@ interface StoryGenerationOverlayProps {
 export default function StoryGenerationOverlay({
   status,
 }: StoryGenerationOverlayProps) {
+  const t = useTranslations('StoryOverlay');
   const [stageIndex, setStageIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -38,7 +34,7 @@ export default function StoryGenerationOverlay({
     setProgress(0);
 
     const stageTimer = setInterval(() => {
-      setStageIndex((i) => Math.min(i + 1, stages.length - 1));
+      setStageIndex((i) => Math.min(i + 1, STAGE_COUNT - 1));
     }, STAGE_INTERVAL_MS);
 
     // Ease toward 90% and hold there until the request actually finishes
@@ -98,7 +94,7 @@ export default function StoryGenerationOverlay({
                   transition={{ duration: 0.25 }}
                   className="font-medium text-slate-700"
                 >
-                  {isSuccess ? 'Your story is ready!' : stages[stageIndex]}
+                  {isSuccess ? t('ready') : t(`stage${stageIndex}`)}
                 </motion.p>
               </AnimatePresence>
             </div>
@@ -112,9 +108,7 @@ export default function StoryGenerationOverlay({
             </div>
 
             {!isSuccess && (
-              <p className="text-xs text-slate-400">
-                This usually takes about 10 seconds
-              </p>
+              <p className="text-xs text-slate-400">{t('estimate')}</p>
             )}
           </motion.div>
         </motion.div>

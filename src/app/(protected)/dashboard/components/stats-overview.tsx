@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, BookOpen, Layers } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import type { UserData } from '@/types';
 
 interface StatsOverviewProps {
@@ -8,16 +9,17 @@ interface StatsOverviewProps {
 
 export async function StatsOverview({ userDataPromise }: StatsOverviewProps) {
   const userData = await userDataPromise;
+  const t = await getTranslations('Dashboard');
 
   const statCards = [
     {
-      label: 'Stories Created',
+      label: t('storiesCreated'),
       value: userData?.storiesCreated ?? 0,
       icon: <BookOpen className="size-4 text-green-500" />,
       color: 'bg-green-50 border-green-100',
     },
     {
-      label: 'Flashcards Created',
+      label: t('flashcardsCreated'),
       value: userData?.flashcardsCreated ?? 0,
       icon: <Layers className="size-4 text-blue-500" />,
       color: 'bg-blue-50 border-blue-100',
@@ -35,7 +37,7 @@ export async function StatsOverview({ userDataPromise }: StatsOverviewProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <BarChart3 className="size-5 text-accent" />
-          Learning Stats
+          {t('statsTitle')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

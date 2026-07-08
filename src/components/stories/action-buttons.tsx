@@ -11,12 +11,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface StoryActionsProps {
   storyId: string;
 }
 
 export default function StoryActionButtons({ storyId }: StoryActionsProps) {
+  const t = useTranslations("StoryActions");
   const [, setIsDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
@@ -31,7 +33,7 @@ export default function StoryActionButtons({ storyId }: StoryActionsProps) {
       await deleteStoryServerAction(storyId);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
-      alert("Error deleting story. Please try again.");
+      alert(t("deleteError"));
     } finally {
       setIsDeleting(false);
       setShowConfirm(false);
@@ -45,7 +47,7 @@ export default function StoryActionButtons({ storyId }: StoryActionsProps) {
       router.push(`/dream-journal/${storyId}`);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error(`Unable to access Dream Journal`, {
+        toast.error(t("dreamJournalError"), {
           position: "top-center",
           style: {
             backgroundColor: "white",
@@ -54,7 +56,7 @@ export default function StoryActionButtons({ storyId }: StoryActionsProps) {
           },
         });
       } else {
-        alert("Unable to access Dream Journal. Please try again.");
+        alert(t("dreamJournalErrorRetry"));
       }
     }
   }
@@ -72,7 +74,7 @@ export default function StoryActionButtons({ storyId }: StoryActionsProps) {
             href={`/stories/${storyId}`}
             className="flex items-center gap-2"
           >
-            <BookOpen className="w-4 h-4" /> Read story
+            <BookOpen className="w-4 h-4" /> {t("read")}
           </Link>
         </Button>
 
@@ -83,7 +85,7 @@ export default function StoryActionButtons({ storyId }: StoryActionsProps) {
           className="h-9 px-3 text-sm font-semibold"
         >
           <MessagesSquare className="w-4 h-4" />
-          <span>Test yourself</span>
+          <span>{t("test")}</span>
         </Button>
 
         <Button
@@ -98,10 +100,10 @@ export default function StoryActionButtons({ storyId }: StoryActionsProps) {
 
       <ConfirmationWindow
         open={showConfirm}
-        title="Are you sure?"
-        message="This will permanently delete the story."
-        confirmText="Delete"
-        cancelText="Cancel"
+        title={t("confirmTitle")}
+        message={t("confirmMessage")}
+        confirmText={t("delete")}
+        cancelText={t("cancel")}
         onCancel={() => setShowConfirm(false)}
         onConfirm={handleConfirmDelete}
       />
