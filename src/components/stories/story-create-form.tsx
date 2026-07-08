@@ -23,11 +23,15 @@ import { languages, languageLevels, grammarTopics } from '@/constants';
 import { language } from '@/types';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
+import { useUser } from '@/contexts/user-context';
 import StoryGenerationOverlay, {
   GenerationStatus,
 } from './story-generation-overlay';
 
 export default function TopicCreateForm() {
+  const { userData } = useUser();
+  const baseLanguage = userData?.nativeLanguage ?? 'English';
+  const targetLanguages = languages.filter((lang) => lang !== baseLanguage);
   const [status, setStatus] = useState<GenerationStatus>('idle');
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<language>();
@@ -130,7 +134,7 @@ export default function TopicCreateForm() {
                         : 'border-gray-300'
                     }`}
                   >
-                    {selectedLanguage || 'Select a language'}
+                    {selectedLanguage || 'Which language are you learning?'}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     collisionPadding={8}
@@ -138,7 +142,7 @@ export default function TopicCreateForm() {
                   >
                     <DropdownMenuLabel>Languages</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {languages.map((lang) => (
+                    {targetLanguages.map((lang) => (
                       <DropdownMenuItem
                         key={lang}
                         onSelect={() => setSelectedLanguage(lang)}
@@ -148,6 +152,12 @@ export default function TopicCreateForm() {
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
+                {selectedLanguage && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Your story: {baseLanguage} ↔ {selectedLanguage} — you speak{' '}
+                    {baseLanguage}, change it on your dashboard
+                  </p>
+                )}
                 {!isGenerating && formState.errors.language && (
                   <p className="mt-1 text-sm text-red-600">
                     {formState.errors.language.join(', ')}

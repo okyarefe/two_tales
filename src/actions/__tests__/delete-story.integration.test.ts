@@ -11,6 +11,7 @@ vi.mock("@/lib/supabase/server", () => ({
 
 vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
+  revalidateTag: vi.fn(),
 }));
 
 const mockGetStoryById = vi.fn();
@@ -21,6 +22,8 @@ vi.mock("@/lib/supabase/queries", () => ({
   // Unused by deleteStoryServerAction but imported at module level
   deductUserCredit: vi.fn(),
   getUserCredits: vi.fn(),
+  addStoryCreditsToUser: vi.fn(),
+  getUserNativeLanguage: vi.fn(),
   saveQuizQuestions: vi.fn(),
   saveStory: vi.fn(),
   markStoryFeedbackGenerated: vi.fn(),

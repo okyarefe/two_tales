@@ -10,6 +10,7 @@ interface GenerateStoryProps {
   title: string;
   prompt: string;
   language: string;
+  baseLanguage: string;
   languageLevel: string;
   topic?: string;
 }
@@ -18,6 +19,7 @@ export async function generateStory(props: GenerateStoryProps) {
   try {
     const promptForOpenAI = generateOpenAIStoryPrompt(
       props.prompt,
+      props.baseLanguage,
       props.language,
       props.languageLevel as languageLevel,
       "medium",
@@ -52,7 +54,7 @@ export async function generateStory(props: GenerateStoryProps) {
     }
 
     // Validate the parsed object has required properties
-    if (!parsed.english_version || !parsed.translated_version) {
+    if (!parsed.base_language_version || !parsed.target_language_version) {
       console.error("Missing required properties in parsed response:", parsed);
       throw new Error(
         "AI response missing required story versions..please try again"
@@ -60,8 +62,8 @@ export async function generateStory(props: GenerateStoryProps) {
     }
 
     const generatedStories = {
-      english: parsed.english_version,
-      translated: parsed.translated_version,
+      base: parsed.base_language_version,
+      target: parsed.target_language_version,
       totalTokens: totalTokens || 0,
     };
 
@@ -77,8 +79,8 @@ export async function generateStory(props: GenerateStoryProps) {
 }
 
 export async function generateQuizFromStory(story: {
-  english: string;
-  translated: string;
+  base: string;
+  target: string;
   total_tokens?: number;
 }): Promise<{
   id: string;
@@ -96,7 +98,7 @@ export async function generateQuizFromStory(story: {
         },
         {
           role: "user",
-          content: story.translated,
+          content: story.target,
         },
       ],
       text: {

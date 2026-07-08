@@ -80,6 +80,7 @@ export default async function DreamJournalDetailPage({ params }: Props) {
         <DreamJournalForm
           storyId={story.id}
           targetLanguage={story.translate_to}
+          baseLanguage={story.base_language ?? 'English'}
           storyCheckReference={story.translated_version}
           feedbackGenerated={story.feedback_generated ?? false}
           existingFeedback={existingFeedback}

@@ -17,6 +17,9 @@ interface GetStoryFeedbackProps {
   userAnswer: string;
   storyCheckReference: string;
   targetLanguage: string;
+  // Language the mistake explanations are written in (the story's base
+  // language — the language the learner already speaks).
+  baseLanguage?: string;
 }
 
 export async function getStoryFeedback({
@@ -24,6 +27,7 @@ export async function getStoryFeedback({
   userAnswer,
   storyCheckReference,
   targetLanguage,
+  baseLanguage = 'English',
 }: GetStoryFeedbackProps) {
   try {
     // Auth Check
@@ -52,6 +56,7 @@ export async function getStoryFeedback({
       storyCheckReference,
       userAnswer,
       targetLanguage,
+      baseLanguage,
     );
 
     const response = await openAiClient.responses.create({

@@ -26,6 +26,33 @@ export async function deductUserCredit(userId: string): Promise<boolean> {
   return data?.[0]?.success ?? false;
 }
 
+export async function getUserNativeLanguage(userId: string): Promise<string> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('native_language')
+    .eq('id', userId)
+    .single();
+
+  if (error) throw new Error('Error fetching user language');
+  return data.native_language ?? 'English';
+}
+
+export async function updateUserNativeLanguage(
+  userId: string,
+  nativeLanguage: string,
+): Promise<void> {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from('users')
+    .update({ native_language: nativeLanguage })
+    .eq('id', userId);
+
+  if (error) throw new Error('Error updating your language');
+}
+
 export async function addStoryCreditsToUser(userId: string, amount: number) {
   const supabase = await createClient();
 
