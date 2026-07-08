@@ -25,11 +25,17 @@ const mockGetUserCredits = vi.fn();
 const mockSaveStory = vi.fn();
 const mockSaveQuizQuestions = vi.fn();
 const mockDeductUserCredit = vi.fn();
+const mockAddStoryCreditsToUser = vi.fn();
+const mockGetUserNativeLanguage = vi.fn();
 vi.mock("@/lib/supabase/queries", () => ({
   getUserCredits: (...args: unknown[]) => mockGetUserCredits(...args),
   saveStory: (...args: unknown[]) => mockSaveStory(...args),
   saveQuizQuestions: (...args: unknown[]) => mockSaveQuizQuestions(...args),
   deductUserCredit: (...args: unknown[]) => mockDeductUserCredit(...args),
+  addStoryCreditsToUser: (...args: unknown[]) =>
+    mockAddStoryCreditsToUser(...args),
+  getUserNativeLanguage: (...args: unknown[]) =>
+    mockGetUserNativeLanguage(...args),
   // These are imported but not used in createStory — still need to export them
   markStoryFeedbackGenerated: vi.fn(),
   checkStoryHasFeedback: vi.fn(),
@@ -82,6 +88,8 @@ describe("createStory — integration", () => {
   // Reset all mocks before each test so they don't leak state
   beforeEach(() => {
     vi.clearAllMocks();
+    // Default: user's own language is English (matches the DB column default)
+    mockGetUserNativeLanguage.mockResolvedValue("English");
   });
 
   // -------------------------------------------------------------------------
@@ -137,7 +145,8 @@ describe("createStory — integration", () => {
     mockGetUser.mockResolvedValue({
       data: { user: { id: "user-123" } },
     });
-    mockGetUserCredits.mockResolvedValue(0);
+    // deduct_credit RPC refuses when the user has no credits left
+    mockDeductUserCredit.mockResolvedValue(false);
 
     const result = await createStory(emptyFormState, makeFormData(validFields));
 
@@ -150,6 +159,27 @@ describe("createStory — integration", () => {
   });
 
   // -------------------------------------------------------------------------
+  // TEST 3b: Target language equals the user's own language → field error
+  // -------------------------------------------------------------------------
+  it("rejects a story when the target language is the user's own language", async () => {
+    mockGetUser.mockResolvedValue({
+      data: { user: { id: "user-123" } },
+    });
+    mockGetUserNativeLanguage.mockResolvedValue("Turkish");
+
+    const result = await createStory(
+      emptyFormState,
+      makeFormData({ ...validFields, language: "Turkish" }),
+    );
+
+    expect(result.errors.language?.[0]).toMatch(/already speak Turkish/);
+    expect(result.success).toBe(false);
+    // No credit spent, no AI call
+    expect(mockDeductUserCredit).not.toHaveBeenCalled();
+    expect(mockGenerateStory).not.toHaveBeenCalled();
+  });
+
+  // -------------------------------------------------------------------------
   // TEST 4: Happy path — everything succeeds
   // -------------------------------------------------------------------------
   it("creates story, saves to DB, deducts credit on success", async () => {
@@ -157,10 +187,10 @@ describe("createStory — integration", () => {
     mockGetUser.mockResolvedValue({
       data: { user: { id: "user-123" } },
     });
-    mockGetUserCredits.mockResolvedValue(5); // user has credits
+    mockDeductUserCredit.mockResolvedValue(true);
     mockGenerateStory.mockResolvedValue({
-      english: "The brave dog entered the forest.",
-      translated: "Cesur köpek ormana girdi.",
+      base: "The brave dog entered the forest.",
+      target: "Cesur köpek ormana girdi.",
       totalTokens: 150,
     });
     mockSaveStory.mockResolvedValue({
@@ -174,7 +204,6 @@ describe("createStory — integration", () => {
       questions: [{ question: "Where did the dog go?", answer: "The forest" }],
     });
     mockSaveQuizQuestions.mockResolvedValue(undefined);
-    mockDeductUserCredit.mockResolvedValue(true);
 
     const result = await createStory(emptyFormState, makeFormData(validFields));
 
@@ -183,28 +212,39 @@ describe("createStory — integration", () => {
     expect(result.errors).toEqual({});
 
     // Verify the full chain was called in order
-    expect(mockGetUserCredits).toHaveBeenCalledWith("user-123");
+    expect(mockDeductUserCredit).toHaveBeenCalledWith("user-123");
     expect(mockGenerateStory).toHaveBeenCalledWith({
       title: "My Test Story",
       prompt: "A story about a brave dog exploring the forest",
       language: "Turkish",
+      baseLanguage: "English",
       languageLevel: "B1",
       topic: "Prepositions",
     });
-    expect(mockSaveStory).toHaveBeenCalled();
+    // The story is saved with the base language recorded
+    expect(mockSaveStory).toHaveBeenCalledWith(
+      expect.objectContaining({
+        english_version: "The brave dog entered the forest.",
+        translated_version: "Cesur köpek ormana girdi.",
+        base_language: "English",
+        translate_to: "Turkish",
+      }),
+      "user-123",
+    );
     expect(mockGenerateQuizFromStory).toHaveBeenCalled();
     expect(mockSaveQuizQuestions).toHaveBeenCalled();
-    expect(mockDeductUserCredit).toHaveBeenCalledWith("user-123");
+    // No refund on success
+    expect(mockAddStoryCreditsToUser).not.toHaveBeenCalled();
   });
 
   // -------------------------------------------------------------------------
-  // TEST 5: OpenAI failure → returns error, does NOT deduct credit
+  // TEST 5: OpenAI failure → returns error, refunds the reserved credit
   // -------------------------------------------------------------------------
-  it("returns error and does not deduct credit when AI generation fails", async () => {
+  it("returns error and refunds the credit when AI generation fails", async () => {
     mockGetUser.mockResolvedValue({
       data: { user: { id: "user-123" } },
     });
-    mockGetUserCredits.mockResolvedValue(5);
+    mockDeductUserCredit.mockResolvedValue(true);
     mockGenerateStory.mockRejectedValue(
       new Error("Story generation failed: API timeout"),
     );
@@ -214,22 +254,22 @@ describe("createStory — integration", () => {
     expect(result.errors._form).toContain(
       "Story generation failed: API timeout",
     );
-    // Credit should NOT be deducted if generation fails
-    expect(mockDeductUserCredit).not.toHaveBeenCalled();
+    // The credit reserved before generation must be refunded
+    expect(mockAddStoryCreditsToUser).toHaveBeenCalledWith("user-123", 1);
     expect(mockSaveStory).not.toHaveBeenCalled();
   });
 
   // -------------------------------------------------------------------------
-  // TEST 6: DB save fails → returns error, does NOT deduct credit
+  // TEST 6: DB save fails → returns error, refunds the reserved credit
   // -------------------------------------------------------------------------
-  it("returns error and does not deduct credit when DB save fails", async () => {
+  it("returns error and refunds the credit when DB save fails", async () => {
     mockGetUser.mockResolvedValue({
       data: { user: { id: "user-123" } },
     });
-    mockGetUserCredits.mockResolvedValue(5);
+    mockDeductUserCredit.mockResolvedValue(true);
     mockGenerateStory.mockResolvedValue({
-      english: "A story",
-      translated: "Bir hikaye",
+      base: "A story",
+      target: "Bir hikaye",
       totalTokens: 100,
     });
     mockSaveStory.mockRejectedValue(
@@ -239,7 +279,36 @@ describe("createStory — integration", () => {
     const result = await createStory(emptyFormState, makeFormData(validFields));
 
     expect(result.errors._form).toContain("Error saving story to database");
-    // Credit should NOT be deducted if save fails
-    expect(mockDeductUserCredit).not.toHaveBeenCalled();
+    // The credit reserved before generation must be refunded
+    expect(mockAddStoryCreditsToUser).toHaveBeenCalledWith("user-123", 1);
+  });
+
+  // -------------------------------------------------------------------------
+  // TEST 7: Titles with non-ASCII letters are valid (prompt in own language)
+  // -------------------------------------------------------------------------
+  it("accepts a title containing non-English letters", async () => {
+    mockGetUser.mockResolvedValue({
+      data: { user: { id: "user-123" } },
+    });
+    mockDeductUserCredit.mockResolvedValue(true);
+    mockGenerateStory.mockResolvedValue({
+      base: "A story",
+      target: "Bir hikaye",
+      totalTokens: 100,
+    });
+    mockSaveStory.mockResolvedValue({ id: "story-abc" });
+    mockGenerateQuizFromStory.mockResolvedValue({
+      id: "quiz-1",
+      totalTokens: 80,
+      questions: [{ question: "q", answer: "a" }],
+    });
+
+    const result = await createStory(
+      emptyFormState,
+      makeFormData({ ...validFields, title: "Küçük Prensin Yolculuğu" }),
+    );
+
+    expect(result.errors.title).toBeUndefined();
+    expect(result.success).toBe(true);
   });
 });

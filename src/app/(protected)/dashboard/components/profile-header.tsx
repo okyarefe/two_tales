@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Crown, Calendar } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import type { UserData } from '@/types';
+import { NativeLanguageSelect } from './native-language-select';
 
 interface ProfileHeaderProps {
   user: User;
@@ -58,6 +59,9 @@ export async function ProfileHeader({
             <Calendar className="size-3" />
             <span>Member since {memberSince}</span>
           </div>
+          <NativeLanguageSelect
+            initialLanguage={userData?.nativeLanguage ?? 'English'}
+          />
         </div>
 
         <div className="flex gap-6 text-center">

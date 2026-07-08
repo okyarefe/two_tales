@@ -1,10 +1,13 @@
 export const languages = [
+  "English",
   "Turkish",
   "Finnish",
   "Spanish",
   "French",
   "German",
 ] as const;
+
+export const DEFAULT_NATIVE_LANGUAGE = "English";
 
 export const grammarTopics = [
   "Prepositions",

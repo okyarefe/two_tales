@@ -49,9 +49,9 @@ export function StoryCard({ story, index = 0 }: StoryCardProps) {
           {/* Languages and Metadata in one row */}
           <div className="flex flex-wrap items-center gap-2">
             <Badge
-              className={`text-xs font-medium px-2 py-1 rounded-full ${getLanguageColors('English')}`}
+              className={`text-xs font-medium px-2 py-1 rounded-full ${getLanguageColors(story.base_language ?? 'English')}`}
             >
-              English
+              {story.base_language ?? 'English'}
             </Badge>
             <Badge
               className={`text-xs font-medium px-2 py-1 rounded-full ${getLanguageColors(

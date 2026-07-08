@@ -3,6 +3,8 @@ import { languages } from "./constants";
 export interface Story {
   id: string;
   created_at: string;
+  // Historical column name — holds the BASE language version (the language
+  // the user already speaks), which is English unless base_language says otherwise.
   english_version: string;
   translated_version: string;
   level: languageLevel;
@@ -10,6 +12,7 @@ export interface Story {
   total_tokens: number;
   user_id: string;
   translate_to: string;
+  base_language: string;
   title: string;
   feedback_generated?: boolean;
 }
@@ -23,11 +26,13 @@ export interface UserData {
   ttsCredit: number;
   storiesCreated: number;
   flashcardsCreated: number;
+  nativeLanguage: string;
 }
 
 type StoryInsert = Omit<Story, "id" | "created_at">;
 
 export const languages = [
+  "English",
   "Turkish",
   "Finnish",
   "Spanish",
@@ -37,7 +42,13 @@ export const languages = [
 
 type Language = (typeof languages)[number];
 
-export type language = "Turkish" | "Finnish" | "Spanish" | "French" | "German";
+export type language =
+  | "English"
+  | "Turkish"
+  | "Finnish"
+  | "Spanish"
+  | "French"
+  | "German";
 
 export type languageLevel = "A1" | "A2" | "B1" | "B2" | "C1/C2";
 

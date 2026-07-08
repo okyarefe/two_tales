@@ -31,7 +31,8 @@ vi.mock("@/services/openai/client", () => ({
 
 vi.mock("@/services/openai/config", () => ({
   openAIConfig: {
-    models: { STORY_GENERATION_MODEL: "gpt-test" },
+    models: { STORY_GENERATION_MODEL: "gpt-test", FEEDBACK_MODEL: "gpt-test" },
+    systemPrompts: { FEEDBACK_GENERATION: "test system prompt" },
   },
 }));
 
@@ -139,7 +140,7 @@ describe("getStoryFeedback — integration", () => {
     });
   });
 
-  it("uses default topics when none provided", async () => {
+  it("succeeds without an explicit baseLanguage (defaults to English)", async () => {
     mockGetUser.mockResolvedValue({
       data: { user: { id: "user-123" } },
     });
@@ -155,8 +156,6 @@ describe("getStoryFeedback — integration", () => {
     const result = await getStoryFeedback(validInput);
 
     expect(result.success).toBe(true);
-    // The generateFeedbackPrompt mock was called — we trust it received
-    // the default topics since no requestedTopics were provided
   });
 
   it("returns success with feedback on happy path", async () => {
@@ -177,7 +176,7 @@ describe("getStoryFeedback — integration", () => {
 
     const result = await getStoryFeedback({
       ...validInput,
-      requestedTopics: ["Verb conjugation"],
+      baseLanguage: "Turkish",
     });
 
     expect(result).toEqual({

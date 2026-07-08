@@ -3,7 +3,8 @@ import { languageLevelDescriptions } from "@/constants";
 
 export function generateOpenAIStoryPrompt(
   prompt: string,
-  language: string,
+  baseLanguage: string,
+  targetLanguage: string,
   level: languageLevel,
   length: storyLength,
   topic?: string
@@ -15,14 +16,18 @@ export function generateOpenAIStoryPrompt(
   const levelGuideline = languageLevelDescriptions[level] || "";
 
   return `${prompt} ${topicLine}
-          I want to hear the same story in English and ${language}.
-          
+          The story request above may be written in any language.
+          I want to hear the same story in ${baseLanguage} and ${targetLanguage}.
+
+          BASE language: ${baseLanguage} — put this story in the "base_language_version" field.
+          TARGET language: ${targetLanguage} — put this story in the "target_language_version" field.
+
           LANGUAGE LEVEL REQUIREMENT (${level}):
           ${levelGuideline}
-          
-          Apply these guidelines strictly to BOTH the English and ${language} versions.
 
-          First, give me the complete English story, then the same story in ${language}. Do not mix any content!
+          Apply these guidelines strictly to BOTH the ${baseLanguage} and ${targetLanguage} versions.
+
+          First, give me the complete ${baseLanguage} story, then the same story in ${targetLanguage}. Do not mix any content!
 
           Make sure:
           - The number of sentences in both stories are exactly the same.
@@ -64,7 +69,8 @@ export function getTranslatedStory(
 export function generateFeedbackPrompt(
   reference: string,
   learnerText: string,
-  language: string
+  language: string,
+  explanationLanguage: string = "English"
 ): string {
   return `You are reviewing a language-learning exercise in ${language}.
 
@@ -97,12 +103,12 @@ For each mistake, return:
 - severity: "high" if it changes meaning or is a grammatical breakdown; "medium" if noticeable but understandable; "low" if minor.
 - learner_fragment: the exact incorrect word/phrase from LEARNER (not the whole sentence).
 - correct_fragment: the corrected version of just that fragment.
-- explanation: 1-2 sentences explaining the rule, written for a language learner.
+- explanation: 1-2 sentences explaining the rule, written for a language learner, in ${explanationLanguage}.
 - sentence_context: the full LEARNER sentence the mistake appears in.
 
 Then:
 - mistakes_count: integer total of mistakes in the array.
-- brief_feedback: encouraging 1-sentence summary (<= 25 words).
+- brief_feedback: encouraging 1-sentence summary (<= 25 words), written in ${explanationLanguage}.
 
 REFERENCE (correct ${language}):
 """

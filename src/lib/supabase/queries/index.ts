@@ -17,6 +17,8 @@ export {
   getUserCredits,
   deductUserCredit,
   addStoryCreditsToUser,
+  getUserNativeLanguage,
+  updateUserNativeLanguage,
 } from "./users";
 
 export {

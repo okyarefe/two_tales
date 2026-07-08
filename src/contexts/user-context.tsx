@@ -22,6 +22,7 @@ interface UserData {
   ttsCredit: number;
   storiesCreated: number;
   flashcardsCreated: number;
+  nativeLanguage: string;
 }
 
 interface UserContextType {

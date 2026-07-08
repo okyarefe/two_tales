@@ -3,7 +3,9 @@
 import { createClient } from '@/lib/supabase/server';
 import { getUserStoriesCount } from '@/lib/supabase/queries/stories';
 import { getUserFlashcardsCount } from '@/lib/supabase/queries/flashcards';
-import type { UserData } from '@/types';
+import { updateUserNativeLanguage } from '@/lib/supabase/queries';
+import { languages } from '@/constants';
+import type { ActionResult, UserData } from '@/types';
 
 export async function getUserData(userId: string): Promise<UserData | null> {
   const supabase = await createClient();
@@ -12,7 +14,9 @@ export async function getUserData(userId: string): Promise<UserData | null> {
     const [userResult, storiesCreated, flashcardsCreated] = await Promise.all([
       supabase
         .from('users')
-        .select('email, role, membership_type, story_credit, tts_credit')
+        .select(
+          'email, role, membership_type, story_credit, tts_credit, native_language',
+        )
         .eq('id', userId)
         .single(),
       getUserStoriesCount(userId),
@@ -35,10 +39,41 @@ export async function getUserData(userId: string): Promise<UserData | null> {
       ttsCredit: userData.tts_credit || 0,
       storiesCreated,
       flashcardsCreated,
+      nativeLanguage: userData.native_language || 'English',
     };
   } catch (error) {
     console.error('Error in getUserData:', error);
     return null;
+  }
+}
+
+export async function updateNativeLanguage(
+  nativeLanguage: string,
+): Promise<ActionResult<string>> {
+  try {
+    if (!(languages as readonly string[]).includes(nativeLanguage)) {
+      return { success: false, error: 'Please choose a valid language' };
+    }
+
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return {
+        success: false,
+        error: 'You must be signed in to change your language',
+      };
+    }
+
+    await updateUserNativeLanguage(user.id, nativeLanguage);
+    return { success: true, data: nativeLanguage };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : 'Error updating your language',
+    };
   }
 }
 

@@ -10,6 +10,7 @@ import {
   saveStory,
   markStoryFeedbackGenerated,
   checkStoryHasFeedback,
+  getUserNativeLanguage,
 } from '@/lib/supabase/queries';
 import {
   generateQuizFromStory,
@@ -23,7 +24,7 @@ const createStorySchema = z.object({
   title: z
     .string()
     .min(3, { message: 'Title should be at least 3 characters long' })
-    .regex(/^[a-zA-Z\s-]+$/, {
+    .regex(/^[\p{L}\s-]+$/u, {
       message: 'Title can only contain letters, spaces, and hyphens',
     }),
   prompt: z
@@ -83,6 +84,25 @@ export async function createStory(
     };
   }
 
+  // The story pair is base (user's own language, from their profile) ↔ target.
+  let baseLanguage: string;
+  try {
+    baseLanguage = await getUserNativeLanguage(user.id);
+  } catch {
+    baseLanguage = 'English';
+  }
+
+  if (result.data.language === baseLanguage) {
+    return {
+      errors: {
+        language: [
+          `You already speak ${baseLanguage} — pick a language to learn, or change your language on the dashboard`,
+        ],
+      },
+      success: false,
+    };
+  }
+
   // Reserve a credit atomically BEFORE generating. Two concurrent requests
   // serialize at the DB; only one wins and proceeds to OpenAI. The other is
   // rejected here without spending money.
@@ -95,16 +115,17 @@ export async function createStory(
       };
     }
 
-    const story = await generateStory(result.data);
+    const story = await generateStory({ ...result.data, baseLanguage });
 
     const storyData = {
-      english_version: story.english,
-      translated_version: story.translated,
+      english_version: story.base,
+      translated_version: story.target,
       level: result.data.languageLevel,
       length: 'medium' as storyLength,
       total_tokens: story.totalTokens,
       user_id: user.id,
       translate_to: result.data.language,
+      base_language: baseLanguage,
       title: result.data.title,
     };
     const savedStory: Story = await saveStory(storyData, user.id);

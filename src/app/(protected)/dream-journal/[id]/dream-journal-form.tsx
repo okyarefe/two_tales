@@ -25,6 +25,7 @@ type StoreFeedbackRecord = {
 type DreamJournalFormProps = {
   storyId: string;
   targetLanguage: string;
+  baseLanguage?: string;
   storyCheckReference?: string;
   feedbackGenerated: boolean;
   existingFeedback?: StoreFeedbackRecord | null;
@@ -65,6 +66,7 @@ function groupByCategory(mistakes: Mistake[]) {
 export function DreamJournalForm({
   storyId,
   targetLanguage,
+  baseLanguage,
   storyCheckReference,
   feedbackGenerated,
   existingFeedback,
@@ -91,6 +93,7 @@ export function DreamJournalForm({
         userAnswer,
         storyCheckReference,
         targetLanguage,
+        baseLanguage,
       });
 
       if (result.success && result.feedback) {
