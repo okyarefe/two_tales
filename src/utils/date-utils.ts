@@ -1,4 +1,11 @@
-import { addDays, endOfWeek, format, isSameDay, startOfWeek } from 'date-fns';
+import {
+  addDays,
+  endOfWeek,
+  format,
+  isSameDay,
+  startOfWeek,
+  subDays,
+} from 'date-fns';
 
 /** Weeks run Monday → Sunday (date-fns numbers days 0 = Sunday). */
 export const WEEK_STARTS_ON = 1;
@@ -20,6 +27,23 @@ export function getWeekRange(reference: Date = new Date()) {
   return {
     start: startOfWeek(reference, { weekStartsOn: WEEK_STARTS_ON }),
     end: endOfWeek(reference, { weekStartsOn: WEEK_STARTS_ON }),
+  };
+}
+
+/**
+ * The current week widened by a day on each side.
+ *
+ * The server renders in its own timezone (UTC in production) and cannot know
+ * the viewer's, so it cannot pin their week boundaries exactly. Offsets span
+ * UTC-12 to UTC+14, so padding by a full day guarantees the viewer's real week
+ * is contained in the result. The browser then narrows it down precisely.
+ */
+export function getPaddedWeekRange(reference: Date = new Date()) {
+  const { start, end } = getWeekRange(reference);
+
+  return {
+    start: subDays(start, 1),
+    end: addDays(end, 1),
   };
 }
 
