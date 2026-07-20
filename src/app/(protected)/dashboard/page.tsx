@@ -20,7 +20,7 @@ export default async function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Suspense fallback={<CardSkeleton />}>
-            <StreakDisplay />
+            <StreakDisplay userId={user.id} />
           </Suspense>
           <Suspense fallback={<CardSkeleton />}>
             <StatsOverview userDataPromise={userDataPromise} />

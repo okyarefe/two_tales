@@ -97,6 +97,25 @@ export async function getStoryById(storyId: string): Promise<Story | null> {
   return data;
 }
 
+export async function getUserStoryDatesInRange(
+  userId: string,
+  from: Date,
+  to: Date,
+): Promise<string[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('stories')
+    .select('created_at')
+    .eq('user_id', userId)
+    .gte('created_at', from.toISOString())
+    .lte('created_at', to.toISOString());
+
+  if (error) throw new Error('Error fetching user story activity');
+
+  return data.map((row) => row.created_at as string);
+}
+
 export async function getUserStoriesCount(userId: string): Promise<number> {
   const supabase = await createClient();
 
