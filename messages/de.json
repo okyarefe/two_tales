@@ -191,7 +191,8 @@
     "flashcards": "Karteikarten",
     "toggleMenu": "Menü umschalten",
     "changeLanguage": "Sprache ändern",
-    "samples": "Beispielgeschichten"
+    "samples": "Beispielgeschichten",
+    "blogs": "Blog"
   },
   "Auth": {
     "email": "E-Mail",

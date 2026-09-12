@@ -8,6 +8,11 @@ export const publicLinks = [
     icon: <Sparkles className="w-5 h-5" />,
   },
   {
+    href: '/blogs',
+    labelKey: 'blogs',
+    icon: <BookOpen className="w-5 h-5" />,
+  },
+  {
     href: '/how-it-works',
     labelKey: 'howItWorks',
     icon: <HelpCircle className="w-5 h-5" />,

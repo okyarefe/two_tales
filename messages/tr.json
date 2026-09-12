@@ -191,7 +191,8 @@
     "flashcards": "Kartlar",
     "toggleMenu": "Menüyü aç/kapat",
     "changeLanguage": "Dili değiştir",
-    "samples": "Örnek Hikayeler"
+    "samples": "Örnek Hikayeler",
+    "blogs": "Blog"
   },
   "Auth": {
     "email": "E-posta",

@@ -191,7 +191,8 @@
     "flashcards": "Kortit",
     "toggleMenu": "Vaihda valikko",
     "changeLanguage": "Vaihda kieli",
-    "samples": "Esimerkkitarinat"
+    "samples": "Esimerkkitarinat",
+    "blogs": "Blogi"
   },
   "Auth": {
     "email": "Sähköposti",

@@ -191,7 +191,8 @@
     "flashcards": "Flashcards",
     "toggleMenu": "Toggle menu",
     "changeLanguage": "Change language",
-    "samples": "Sample Stories"
+    "samples": "Sample Stories",
+    "blogs": "Blog"
   },
   "Auth": {
     "email": "Email",
