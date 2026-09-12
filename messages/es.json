@@ -190,7 +190,8 @@
     "getCredits": "Comprar créditos",
     "flashcards": "Tarjetas",
     "toggleMenu": "Alternar menú",
-    "changeLanguage": "Cambiar idioma"
+    "changeLanguage": "Cambiar idioma",
+    "samples": "Historias de ejemplo"
   },
   "Auth": {
     "email": "Correo",

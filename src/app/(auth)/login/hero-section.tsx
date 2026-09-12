@@ -1,4 +1,4 @@
-import StoryPreview from '@/app/(auth)/login/story-preview';
+import DemoPickerSection from '@/components/demo/demo-picker-section';
 import GoogleSignInButton from '@/components/google-signin-button';
 import { Sparkles, ShoppingBag, Check, ListChecks, Layers, Headphones } from 'lucide-react';
 
@@ -106,7 +106,7 @@ export default function HeroSection({
                 Any time.
               </p>
             </div>
-            <StoryPreview />
+            <DemoPickerSection />
           </div>
         </div>
       </div>

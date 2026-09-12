@@ -190,7 +190,8 @@
     "getCredits": "Guthaben kaufen",
     "flashcards": "Karteikarten",
     "toggleMenu": "Menü umschalten",
-    "changeLanguage": "Sprache ändern"
+    "changeLanguage": "Sprache ändern",
+    "samples": "Beispielgeschichten"
   },
   "Auth": {
     "email": "E-Mail",

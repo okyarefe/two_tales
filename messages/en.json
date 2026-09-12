@@ -190,7 +190,8 @@
     "getCredits": "Get Credits",
     "flashcards": "Flashcards",
     "toggleMenu": "Toggle menu",
-    "changeLanguage": "Change language"
+    "changeLanguage": "Change language",
+    "samples": "Sample Stories"
   },
   "Auth": {
     "email": "Email",

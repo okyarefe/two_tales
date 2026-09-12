@@ -190,7 +190,8 @@
     "getCredits": "Hanki krediittejä",
     "flashcards": "Kortit",
     "toggleMenu": "Vaihda valikko",
-    "changeLanguage": "Vaihda kieli"
+    "changeLanguage": "Vaihda kieli",
+    "samples": "Esimerkkitarinat"
   },
   "Auth": {
     "email": "Sähköposti",

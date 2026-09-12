@@ -190,7 +190,8 @@
     "getCredits": "Kredi Al",
     "flashcards": "Kartlar",
     "toggleMenu": "Menüyü aç/kapat",
-    "changeLanguage": "Dili değiştir"
+    "changeLanguage": "Dili değiştir",
+    "samples": "Örnek Hikayeler"
   },
   "Auth": {
     "email": "E-posta",

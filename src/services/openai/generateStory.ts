@@ -1,5 +1,5 @@
 import { quizSchema } from "./structured-outputs-schema/quizSchema";
-import { languageLevel } from "@/types";
+import { languageLevel, storyLength } from "@/types";
 import { openAiClient } from "./client";
 import { openAIConfig } from "./config";
 import { generateOpenAIStoryPrompt } from "./prompts";
@@ -13,6 +13,11 @@ interface GenerateStoryProps {
   baseLanguage: string;
   languageLevel: string;
   topic?: string;
+  /**
+   * Story length. Defaults to "medium", which is what the app has always
+   * requested — the demo-story generator asks for "short" instead.
+   */
+  length?: storyLength;
 }
 
 export async function generateStory(props: GenerateStoryProps) {
@@ -22,7 +27,7 @@ export async function generateStory(props: GenerateStoryProps) {
       props.baseLanguage,
       props.language,
       props.languageLevel as languageLevel,
-      "medium",
+      props.length ?? "medium",
       props.topic
     );
 

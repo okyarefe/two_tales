@@ -1,7 +1,12 @@
-import { BookOpen, CreditCard, Home, HelpCircle, Mail } from 'lucide-react';
+import { BookOpen, CreditCard, Home, HelpCircle, Mail, Sparkles } from 'lucide-react';
 
 // labelKey maps to a key in the "Nav" messages namespace.
 export const publicLinks = [
+  {
+    href: '/learn',
+    labelKey: 'samples',
+    icon: <Sparkles className="w-5 h-5" />,
+  },
   {
     href: '/how-it-works',
     labelKey: 'howItWorks',

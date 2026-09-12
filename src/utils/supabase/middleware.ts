@@ -47,6 +47,7 @@ export async function updateSession(request: NextRequest) {
     "/contact",
     "/how-it-works",
     "/blogs",
+    "/learn",
     "/credits",
     "/icon",
   ];
