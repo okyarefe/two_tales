@@ -43,7 +43,7 @@ export default async function GetCreditsPage() {
           <span className="tt-eyebrow">{t('eyebrow')}</span>
           <h1 className="text-display mt-4 text-foreground">
             {t('headingMain')}{' '}
-            <span className="font-serif italic text-accent">
+            <span className="text-accent">
               {t('headingAccent')}
             </span>
           </h1>

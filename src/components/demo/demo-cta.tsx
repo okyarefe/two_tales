@@ -12,8 +12,8 @@ import GoogleSignInButton from "@/components/google-signin-button";
  */
 export default function DemoCta({ topicLabel }: { topicLabel?: string }) {
   return (
-    <section className="rounded-2xl border border-accent/30 bg-gradient-to-br from-accent/10 to-forest-500/5 px-6 py-8 text-center sm:px-10">
-      <h2 className="font-serif text-xl font-semibold text-foreground sm:text-2xl">
+    <section className="rounded-3xl bg-lavender-100/60 px-6 py-8 text-center sm:px-10">
+      <h2 className="font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
         {topicLabel
           ? `That one was about ${topicLabel.toLowerCase()}.`
           : "These are just samples."}
@@ -29,7 +29,7 @@ export default function DemoCta({ topicLabel }: { topicLabel?: string }) {
         <GoogleSignInButton
           variant="learn"
           showTextOnXs
-          className="h-14 rounded-xl bg-gradient-to-b from-accent to-brick-700 px-6 text-lg font-semibold text-vellum-50 shadow-lg shadow-accent/40 transition-all duration-200 hover:-translate-y-0.5 hover:from-brick-700 hover:to-brick-700 hover:shadow-xl hover:shadow-accent/50"
+          className="h-14 rounded-2xl px-7 text-lg font-semibold bg-accent text-accent-foreground shadow-action transition-all duration-200 hover:bg-lavender-600 hover:shadow-action-hover hover:-translate-y-0.5"
         >
           Write my own story — free
         </GoogleSignInButton>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Source_Serif_4, Inter, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
@@ -7,18 +7,17 @@ import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
 import styles from "./layout.module.css";
 
-const sourceSerif = Source_Serif_4({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-source-serif",
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  variable: "--font-space-grotesk",
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["400", "500", "600"],
+  variable: "--font-jakarta",
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -116,7 +115,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${sourceSerif.variable} ${inter.variable} ${jetbrainsMono.variable} font-serif tt-paper`}
+        className={`${spaceGrotesk.variable} ${jakarta.variable} ${jetbrainsMono.variable} font-sans`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <div className={`h-full flex flex-col ${styles.landscapeRow}`}>

@@ -81,7 +81,7 @@ export default function DemoPicker({
   return (
     <div className="rounded-2xl border border-border bg-card/90 p-5 shadow-xl shadow-ink-700/10 backdrop-blur-md sm:p-6">
       <div className="mb-5">
-        <h2 className="font-serif text-lg font-semibold text-foreground">
+        <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">
           Read a real one first
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -155,7 +155,7 @@ export default function DemoPicker({
           <GoogleSignInButton
             variant="learn"
             showTextOnXs
-            className="h-12 w-full rounded-xl bg-gradient-to-b from-accent to-brick-700 text-base font-semibold text-vellum-50 shadow-lg shadow-accent/40 transition-all hover:from-brick-700 hover:to-brick-700"
+            className="h-12 w-full rounded-xl text-base font-semibold bg-accent text-accent-foreground shadow-action transition-all duration-200 hover:bg-lavender-600 hover:shadow-action-hover"
           >
             Write this one for me — free
           </GoogleSignInButton>
@@ -169,7 +169,7 @@ export default function DemoPicker({
           type="button"
           onClick={handleRead}
           disabled={!selectedTopic || isPending}
-          className="h-12 w-full rounded-xl bg-gradient-to-b from-accent to-brick-700 text-base font-semibold text-vellum-50 shadow-lg shadow-accent/40 transition-all hover:from-brick-700 hover:to-brick-700 disabled:opacity-50 disabled:shadow-none"
+          className="h-12 w-full rounded-xl text-base font-semibold bg-accent text-accent-foreground shadow-action transition-all duration-200 hover:bg-lavender-600 hover:shadow-action-hover disabled:opacity-50 disabled:shadow-none"
         >
           {isPending
             ? "Opening…"

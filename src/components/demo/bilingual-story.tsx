@@ -14,10 +14,10 @@ import type { DemoStory } from "@/data/demo-stories/types";
  */
 export default function BilingualStory({ story }: { story: DemoStory }) {
   return (
-    <article className="rounded-2xl border border-border bg-card/90 shadow-xl shadow-ink-700/10">
+    <article className="rounded-3xl bg-card shadow-lg">
       <header className="border-b border-border px-6 py-5 sm:px-8">
         <div className="mb-3 flex flex-wrap items-center gap-2">
-          <Badge className="bg-accent/10 text-accent hover:bg-accent/10">
+          <Badge>
             {story.level}
           </Badge>
           <Badge variant="secondary">{story.topicLabel}</Badge>
@@ -26,7 +26,7 @@ export default function BilingualStory({ story }: { story: DemoStory }) {
           </span>
         </div>
 
-        <h1 className="font-serif text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+        <h1 className="font-display text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-3xl">
           {story.title}
         </h1>
       </header>
@@ -40,7 +40,7 @@ export default function BilingualStory({ story }: { story: DemoStory }) {
         <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           {story.baseLanguage}
         </span>
-        <span className="text-xs font-semibold uppercase tracking-wide text-accent">
+        <span className="text-xs font-semibold uppercase tracking-wide text-blush-700">
           {story.targetLanguage}
         </span>
       </div>
@@ -49,12 +49,14 @@ export default function BilingualStory({ story }: { story: DemoStory }) {
         {story.sentences.map((pair, index) => (
           <div
             key={index}
-            className="grid gap-2 px-6 py-4 transition-colors hover:bg-accent/5 sm:px-8 md:grid-cols-2 md:gap-6"
+            className="grid gap-0 border-b border-border/60 last:border-b-0 sm:px-0 md:grid-cols-2"
           >
-            <p className="text-[15px] leading-relaxed text-foreground/85">
+            {/* Each language gets its own wash so both texts can stay in
+                ink — coloured body text was failing contrast. */}
+            <p className="tt-lang-a px-6 py-4 text-[15px] leading-relaxed text-foreground sm:px-8">
               {pair.base}
             </p>
-            <p className="font-serif text-[15px] leading-relaxed text-accent">
+            <p className="tt-lang-b px-6 py-4 text-[15px] leading-relaxed text-foreground sm:px-8">
               {pair.target}
             </p>
           </div>

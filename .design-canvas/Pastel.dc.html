@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    a { color: #7C72CC; } a:hover { color: #635AAC; }
+    .ft { display: flex; align-items: center; gap: 13px; font-size: 17px; font-weight: 500; color: #3A3548; }
+    .ico { width: 32px; height: 32px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+    .cellA { padding: 13px 18px; }
+    .cellB { padding: 13px 18px; background: rgba(233,169,157,0.11); }
+    .sent { font-size: 14px; line-height: 1.55; margin: 0; color: #3A3548; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 900px; background: #FAFAFC; position: relative; overflow: hidden; color: #3A3548;">
+
+  <div style="position: absolute; top: -130px; right: -90px; width: 460px; height: 460px; border-radius: 999px; background: #F0DFB8; opacity: 0.4;"></div>
+  <div style="position: absolute; top: 340px; right: 210px; width: 190px; height: 190px; border-radius: 999px; background: #E9A99D; opacity: 0.22;"></div>
+  <div style="position: absolute; bottom: -90px; left: -70px; width: 330px; height: 330px; border-radius: 999px; background: #9FCFB4; opacity: 0.16;"></div>
+
+  <div style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 26px 64px;">
+    <div style="display: flex; align-items: center; gap: 11px;">
+      <div style="width: 36px; height: 36px; border-radius: 13px; background: #8B82D9; display: flex; align-items: center; justify-content: center;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
+      </div>
+      <span style="font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 700; letter-spacing: -0.02em;">TwoTales</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 30px;">
+      <span style="font-size: 15px; font-weight: 500; color: #7B7689;">How it works</span>
+      <span style="font-size: 15px; font-weight: 500; color: #7B7689;">Learn</span>
+      <span style="font-size: 15px; font-weight: 500; color: #7B7689;">Blog</span>
+      <div style="border-radius: 13px; padding: 10px 20px; font-size: 15px; font-weight: 600; background: #FFFFFF; box-shadow: 0 1px 2px rgba(58,53,72,0.05), 0 4px 12px rgba(58,53,72,0.05);">Sign in</div>
+    </div>
+  </div>
+
+  <div style="position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; padding: 62px 64px 0 64px; align-items: start;">
+
+    <div style="display: flex; flex-direction: column; gap: 32px;">
+      <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 55px; line-height: 1.08; letter-spacing: -0.03em; font-weight: 600; margin: 0; text-wrap: balance;">
+        Learn a new language with bilingual stories about <span style="color: #7C72CC; white-space: nowrap;">anything</span> you can think of.
+      </h1>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="ft"><span class="ico" style="background: rgba(139,130,217,0.18);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C72CC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path><path d="M13 6h8"></path><path d="M13 12h8"></path><path d="M13 18h8"></path></svg></span>Built-in quizzes</div>
+        <div class="ft"><span class="ico" style="background: rgba(233,169,157,0.28);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4796A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 17 9 5 9-5"></path></svg></span>Flashcards</div>
+        <div class="ft"><span class="ico" style="background: rgba(159,207,180,0.32);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#53886B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg></span>Listening practice</div>
+        <div class="ft"><span class="ico" style="background: rgba(240,223,184,0.6);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A7C2C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 2.6 12 8l5.4 2.1-5.4 2.1L9.9 17.6 7.8 12.2 2.4 10.1 7.8 8Z"></path><path d="M18 3v4"></path><path d="M20 5h-4"></path></svg></span>AI feedback</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 22px; margin-top: 6px;">
+        <div style="background: #8B82D9; color: #FFFFFF; font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; padding: 20px 32px; border-radius: 18px; box-shadow: 0 4px 10px rgba(139,130,217,0.32), 0 12px 28px rgba(139,130,217,0.2); display: flex; align-items: center; gap: 11px; letter-spacing: -0.01em;">
+          Start learning for free
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
+        <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; color: #3A3548;">
+          <span style="width: 22px; height: 22px; border-radius: 999px; background: rgba(159,207,180,0.45); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#53886B" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          </span>
+          No credit card is required
+        </span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 24px;">
+      <div style="text-align: right; display: flex; flex-direction: column; gap: 3px;">
+        <p style="font-size: 20px; font-weight: 500; color: #7B7689; margin: 0 0 4px 0;">Create stories on</p>
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 600; line-height: 1.18; letter-spacing: -0.02em; margin: 0; color: #3A3548;">Any topic.</p>
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 600; line-height: 1.18; letter-spacing: -0.02em; margin: 0; color: #7C72CC;">Any grammar point.</p>
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 600; line-height: 1.18; letter-spacing: -0.02em; margin: 0; color: #3A3548;">Any time.</p>
+      </div>
+
+      <div style="width: 100%; background: #FFFFFF; border-radius: 24px; overflow: hidden; box-shadow: 0 2px 4px rgba(58,53,72,0.04), 0 14px 36px rgba(58,53,72,0.08);">
+        <div style="padding: 19px 22px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: rgba(139,130,217,0.18); color: #6C62BC; font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 999px; letter-spacing: 0.04em;">B1</span>
+            <span style="background: rgba(58,53,72,0.05); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 999px; color: #7B7689;">Football</span>
+            <span style="font-size: 12px; color: #7B7689; margin-left: auto;">English &rarr; Spanish</span>
+          </div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.02em;">The Last Minute</h3>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0;">
+          <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #7B7689; padding: 8px 18px;">English</span>
+          <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #C4796A; padding: 8px 18px; background: rgba(233,169,157,0.11);">Spanish</span>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <div class="pair">
+            <div class="cellA"><p class="sent">It was the final match of the season.</p></div>
+            <div class="cellB"><p class="sent">Era el partido final de la temporada.</p></div>
+          </div>
+          <div class="pair">
+            <div class="cellA"><p class="sent">The stadium was filled with cheering fans.</p></div>
+            <div class="cellB"><p class="sent">El estadio estaba lleno de aficionados animando.</p></div>
+          </div>
+          <div class="pair">
+            <div class="cellA"><p class="sent">He had practiced hard and felt ready.</p></div>
+            <div class="cellB"><p class="sent">Hab&iacute;a practicado duro y se sent&iacute;a listo.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
