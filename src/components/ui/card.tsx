@@ -2,12 +2,20 @@ import * as React from "react";
 
 import { cn } from "@/utils/utils";
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({
+  className,
+  interactive = false,
+  ...props
+}: React.ComponentProps<"div"> & { interactive?: boolean }) {
   return (
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm transform transition-transform duration-200 ease-out hover:-translate-y-1 hover:shadow-md hover:border-accent/30",
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-2xl py-6 shadow-sm transition-all duration-200 ease-out",
+        // The lift used to be unconditional, so static cards floated on
+        // hover too. It is opt-in now: pass `interactive` on cards that
+        // are actually clickable.
+        interactive && "cursor-pointer hover:-translate-y-1 hover:shadow-lg",
         className
       )}
       {...props}

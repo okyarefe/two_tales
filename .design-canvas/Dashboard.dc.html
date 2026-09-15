@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    a { color: #6470CE; } a:hover { color: #4E58B0; }
+    .card { background: #FFFFFF; border: 1px solid rgba(43,40,56,0.15); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(43,40,56,0.03), 0 6px 18px rgba(43,40,56,0.05); }
+    .ctitle { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 9px; letter-spacing: -0.01em; }
+    .lbl { font-size: 12px; color: #6E6A7C; }
+    .big { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; }
+    .bar { width: 100%; border-radius: 6px 6px 3px 3px; }
+  </style>
+</helmet>
+
+<div style="width: 1120px; height: 640px; background: #F7F7FB; color: #2B2838; padding: 34px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+
+  <!-- profile header -->
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <div style="width: 54px; height: 54px; border-radius: 999px; background: #F2D488; border: 1px solid rgba(43,40,56,0.14); display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 700;">E</div>
+      <div style="display: flex; flex-direction: column; gap: 3px;">
+        <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 27px; font-weight: 700; margin: 0; letter-spacing: -0.02em;">Welcome back, Efe</h1>
+        <span class="lbl">Learning Spanish &middot; B1</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 11px;">
+      <span style="display: inline-flex; align-items: center; gap: 7px; border: 1px solid rgba(43,40,56,0.18); background: #FFFFFF; border-radius: 10px; padding: 9px 15px; font-size: 13px; font-weight: 600;">
+        <span style="width: 17px; height: 17px; border-radius: 999px; background: #F2D488; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#2B2838" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+        </span>
+        18 credits
+      </span>
+      <span style="background: #6470CE; color: #FFFFFF; border-radius: 10px; padding: 10px 17px; font-size: 13px; font-weight: 600; box-shadow: 3px 3px 0 rgba(224,138,118,0.7);">New story</span>
+    </div>
+  </div>
+
+  <!-- card grid -->
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+
+    <!-- stats -->
+    <div class="card">
+      <h3 class="ctitle">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6470CE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+        Your stats
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px;">
+        <div style="border: 1px solid rgba(100,112,206,0.25); background: rgba(100,112,206,0.06); border-radius: 12px; padding: 13px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6470CE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
+            <span class="lbl" style="font-size: 11px;">Stories</span>
+          </div>
+          <div class="big">24</div>
+        </div>
+        <div style="border: 1px solid rgba(224,138,118,0.3); background: rgba(224,138,118,0.06); border-radius: 12px; padding: 13px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E08A76" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 17 9 5 9-5"></path></svg>
+            <span class="lbl" style="font-size: 11px;">Flashcards</span>
+          </div>
+          <div class="big">137</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- streak -->
+    <div class="card">
+      <h3 class="ctitle">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#E08A76" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5Z"></path></svg>
+        Streak
+      </h3>
+      <div style="display: flex; align-items: baseline; gap: 9px;">
+        <span class="big" style="font-size: 44px; color: #E08A76;">12</span>
+        <span class="lbl" style="font-size: 14px;">days in a row</span>
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2D488; border: 1px solid rgba(43,40,56,0.14);"></span>
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2D488; border: 1px solid rgba(43,40,56,0.14);"></span>
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2D488; border: 1px solid rgba(43,40,56,0.14);"></span>
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2D488; border: 1px solid rgba(43,40,56,0.14);"></span>
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2D488; border: 1px solid rgba(43,40,56,0.14);"></span>
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #FFFFFF; border: 1px dashed rgba(43,40,56,0.25);"></span>
+        <span style="width: 30px; height: 30px; border-radius: 9px; background: #FFFFFF; border: 1px dashed rgba(43,40,56,0.25);"></span>
+      </div>
+    </div>
+
+    <!-- weekly activity -->
+    <div class="card">
+      <h3 class="ctitle">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8FB89B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 2v4"></path><path d="M16 2v4"></path></svg>
+        This week
+      </h3>
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; height: 96px;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;"><div class="bar" style="height: 34px; background: #6470CE;"></div><span class="lbl" style="font-size: 10px;">M</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;"><div class="bar" style="height: 58px; background: #6470CE;"></div><span class="lbl" style="font-size: 10px;">T</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;"><div class="bar" style="height: 22px; background: #6470CE;"></div><span class="lbl" style="font-size: 10px;">W</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;"><div class="bar" style="height: 76px; background: #E08A76;"></div><span class="lbl" style="font-size: 10px;">T</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;"><div class="bar" style="height: 44px; background: #6470CE;"></div><span class="lbl" style="font-size: 10px;">F</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;"><div class="bar" style="height: 14px; background: rgba(43,40,56,0.12);"></div><span class="lbl" style="font-size: 10px;">S</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;"><div class="bar" style="height: 14px; background: rgba(43,40,56,0.12);"></div><span class="lbl" style="font-size: 10px;">S</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- recent stories -->
+  <div style="display: flex; flex-direction: column; gap: 13px;">
+    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; margin: 0; letter-spacing: -0.01em;">Recent stories</h3>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+      <div style="background: #FFFFFF; border: 1px solid rgba(43,40,56,0.15); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 9px;">
+        <div style="display: flex; gap: 7px;">
+          <span style="background: #6470CE; color: #FFFFFF; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 999px;">B1</span>
+          <span style="border: 1px solid rgba(43,40,56,0.2); font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 999px; color: #6E6A7C;">Football</span>
+        </div>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700;">The Last Minute</span>
+        <span class="lbl" style="font-size: 11px;">14 sentences &middot; 2 days ago</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid rgba(43,40,56,0.15); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 9px;">
+        <div style="display: flex; gap: 7px;">
+          <span style="background: #6470CE; color: #FFFFFF; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 999px;">A2</span>
+          <span style="border: 1px solid rgba(43,40,56,0.2); font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 999px; color: #6E6A7C;">Cooking</span>
+        </div>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700;">The Missing Recipe</span>
+        <span class="lbl" style="font-size: 11px;">11 sentences &middot; 5 days ago</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px dashed rgba(43,40,56,0.25); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;">
+        <span style="width: 30px; height: 30px; border-radius: 999px; background: rgba(100,112,206,0.1); display: flex; align-items: center; justify-content: center;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6470CE" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+        </span>
+        <span style="font-size: 13px; font-weight: 600; color: #6470CE;">Create a story</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

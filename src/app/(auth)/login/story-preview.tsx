@@ -4,7 +4,7 @@ export default function StoryPreview() {
   return (
     <div className="relative w-full max-w-md lg:max-w-lg animate-float">
       {/* Glow behind the card */}
-      <div className="absolute inset-0 -z-10 translate-y-6 scale-95 rounded-3xl bg-gradient-to-br from-accent/25 to-forest-500/25 blur-2xl" />
+      <div className="absolute inset-0 -z-10 translate-y-6 scale-95 rounded-3xl bg-lavender-500/20 blur-3xl" />
 
       {/* Card frame */}
       <div className="rounded-2xl border border-border bg-card/90 backdrop-blur-md p-5 shadow-xl shadow-ink-700/10">
@@ -26,10 +26,10 @@ export default function StoryPreview() {
 
         {/* Title row */}
         <div className="grid grid-cols-2 gap-3 mb-3 pb-3 border-b border-border">
-          <h3 className="font-serif text-base font-semibold text-foreground leading-tight">
+          <h3 className="font-display text-base font-semibold text-foreground leading-tight">
             The Fox and the Frozen Lake
           </h3>
-          <h3 className="font-serif text-base font-semibold text-accent leading-tight">
+          <h3 className="font-display text-base font-semibold text-accent leading-tight">
             El zorro y el lago helado
           </h3>
         </div>

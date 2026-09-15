@@ -48,13 +48,13 @@ export default function FeaturesSection() {
   return (
     <section className="relative px-6 py-24">
       {/* Subtle background */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-vellum-100 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-mist-100 to-transparent" />
 
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <h2 className="text-display text-foreground mb-4">
             Everything you need to{" "}
-            <span className="font-serif italic text-accent">
+            <span className="text-accent">
               learn faster
             </span>
           </h2>

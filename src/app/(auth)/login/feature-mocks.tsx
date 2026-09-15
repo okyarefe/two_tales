@@ -76,7 +76,7 @@ export function StoryCreatorMock() {
           type="button"
           tabIndex={-1}
           aria-hidden
-          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-accent to-brick-700 text-vellum-50 px-4 py-3 text-[14px] font-semibold shadow-md shadow-accent/30 cursor-default"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-accent text-accent-foreground px-4 py-3 text-[14px] font-semibold shadow-action cursor-default"
         >
           <Sparkles className="w-4 h-4" />
           Generate story
@@ -174,7 +174,7 @@ export function FlashcardMock() {
           <span className="text-[10px] text-muted-foreground">3 / 12</span>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center text-center">
-          <p className="font-serif text-2xl font-semibold text-foreground">
+          <p className="font-display text-2xl font-semibold tracking-tight text-foreground">
             cruzó
           </p>
           <p className="text-[11px] text-muted-foreground mt-1">
@@ -203,7 +203,7 @@ export function FeedbackMock() {
         </span>
       </div>
 
-      <div className="font-serif text-[15px] leading-relaxed text-foreground/85">
+      <div className="text-[15px] leading-relaxed text-foreground/85">
         Yo{" "}
         <span className="relative inline-block">
           <span className="line-through text-destructive decoration-destructive decoration-2">
@@ -220,7 +220,7 @@ export function FeedbackMock() {
             Suggestion
           </span>
         </div>
-        <p className="font-serif text-[14px] text-foreground/90">
+        <p className="text-[14px] text-foreground/90">
           Yo <span className="font-semibold text-forest-700">fui</span> al mercado ayer.
         </p>
         <p className="text-[11px] text-muted-foreground leading-relaxed">
