@@ -58,3 +58,6 @@ config.bat
 
 # demo-story generator resume cache (regenerable, not part of the build)
 scripts/demo-stories.cache.json
+
+# Claude Design canvas scratch (published as an Artifact, not app source)
+.design-canvas/
